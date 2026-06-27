@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinoLedger - Laporan Keuangan Premium</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Plus Jakarta Sans (Premium & Modern) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    /* Animasi Halus */
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.4s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="bg-[#FDFDFF] text-slate-800 min-h-screen relative overflow-x-hidden selection:bg-indigo-100">
+
+  <!-- Background Glow Premium -->
+  <div class="absolute top-0 left-1/4 w-[500px] h-[500px] bg-gradient-to-tr from-violet-200/30 to-indigo-200/30 rounded-full blur-3xl pointer-events-none -z-10"></div>
+  <div class="absolute bottom-10 right-10 w-[400px] h-[400px] bg-gradient-to-tr from-purple-200/20 to-fuchsia-100/20 rounded-full blur-3xl pointer-events-none -z-10"></div>
+
+  <!-- --- NOTIFIKASI TOAST CUSTOM (Anti Browser Alert/XSS) --- -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 border border-slate-800">
+      <span id="toast-icon" class="text-lg">💡</span>
+      <p id="toast-message" class="text-xs font-semibold"></p>
+    </div>
+  </div>
+
+  <!-- --- MODAL KONFIRMASI CUSTOM (Bebas dari browser confirm()) --- -->
+  <div id="confirm-modal" class="fixed inset-0 bg-slate-950/40 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300">
+    <div class="bg-white rounded-3xl p-6 max-w-sm w-full mx-4 shadow-2xl border border-slate-100 transform scale-95 transition-all duration-300">
+      <span class="text-3xl">⚠️</span>
+      <h3 class="font-extrabold text-lg text-slate-900 mt-4">Apakah Anda yakin?</h3>
+      <p class="text-xs text-slate-500 mt-2 leading-relaxed">Tindakan ini akan menghapus data terpilih secara permanen dari penyimpanan lokal Anda.</p>
+      <div class="flex gap-2.5 mt-6">
+        <button id="confirm-cancel" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs py-3 rounded-xl transition-all">Batal</button>
+        <button id="confirm-yes" class="flex-1 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs py-3 rounded-xl transition-all">Ya, Hapus</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- --- HEADER NAVBAR --- -->
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-md border-b border-slate-100/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-indigo-600/20">F</div>
+        <div>
+          <span class="text-xl font-extrabold text-slate-900 tracking-tight">Fino<span class="text-indigo-600">Ledger</span></span>
+          <p class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase">Sistem Keuangan HTML</p>
+        </div>
+      </div>
+
+      <!-- Navigasi Utama -->
+      <nav class="hidden md:flex items-center gap-1 bg-slate-100/80 p-1.5 rounded-xl">
+        <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-5 py-2 rounded-lg text-sm font-semibold tracking-wide transition-all bg-white text-indigo-600 shadow-sm">
+          📊 Ringkasan
+        </button>
+        <button onclick="switchTab('transaksi')" id="nav-transaksi" class="nav-btn px-5 py-2 rounded-lg text-sm font-semibold tracking-wide transition-all text-slate-600 hover:text-slate-950">
+          📝 Spreadsheet Grid
+        </button>
+        <button onclick="switchTab('analisis')" id="nav-analisis" class="nav-btn px-5 py-2 rounded-lg text-sm font-semibold tracking-wide transition-all text-slate-600 hover:text-slate-950">
+          📈 Analisis Grafik
+        </button>
+        <button onclick="switchTab('google-sheets')" id="nav-google-sheets" class="nav-btn px-5 py-2 rounded-lg text-sm font-semibold tracking-wide transition-all text-slate-600 hover:text-indigo-600 flex items-center gap-1.5">
+          🟩 Sync Sheets
+          <span id="sync-dot" class="hidden w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        </button>
+      </nav>
+
+      <!-- Status Database -->
+      <div class="flex items-center gap-3">
+        <span id="db-status" class="hidden lg:flex items-center gap-1.5 text-xs bg-amber-50 text-amber-700 font-bold px-3 py-1.5 rounded-full border border-amber-100">
+          <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+          Database Lokal
+        </span>
+        <button onclick="switchTab('google-sheets')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs tracking-wide px-4 py-2.5 rounded-xl transition-all hover:shadow-lg active:scale-95">
+          Hubungkan Database
+        </button>
+      </div>
+    </div>
+
+    <!-- Navigasi Mobile Bawah -->
+    <div class="md:hidden flex justify-around border-t border-slate-100 bg-white p-3">
+      <button onclick="switchTab('dashboard')" class="text-xs flex flex-col items-center gap-1 font-semibold text-indigo-600">
+        <span>📊</span> Ringkasan
+      </button>
+      <button onclick="switchTab('transaksi')" class="text-xs flex flex-col items-center gap-1 font-semibold text-slate-400">
+        <span>📝</span> Grid
+      </button>
+      <button onclick="switchTab('analisis')" class="text-xs flex flex-col items-center gap-1 font-semibold text-slate-400">
+        <span>📈</span> Grafik
+      </button>
+      <button onclick="switchTab('google-sheets')" class="text-xs flex flex-col items-center gap-1 font-semibold text-slate-400">
+        <span>🟩</span> Sheets
+      </button>
+    </div>
+  </header>
+
+  <!-- --- AREA UTAMA --- -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- ================= TAB 1: DASHBOARD ================= -->
+    <div id="tab-dashboard" class="tab-content active space-y-8">
+      <!-- Jumbotron -->
+      <div class="relative overflow-hidden bg-slate-900 text-white rounded-3xl p-8 sm:p-12 shadow-2xl">
+        <div class="absolute top-0 right-0 w-[450px] h-[450px] bg-indigo-500/20 rounded-full blur-3xl pointer-events-none -mr-40 -mt-40"></div>
+        <div class="relative z-10 max-w-2xl">
+          <span class="text-xs font-bold uppercase tracking-widest text-indigo-400">Trusted FinTech Dashboard 2026</span>
+          <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mt-3 mb-4 leading-tight">
+            Analisis Keuangan dalam <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-purple-200">Satu Halaman HTML</span>
+          </h1>
+          <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+            FinoLedger mengorganisir pemasukan dan pengeluaran Anda secara otomatis. Hubungkan ke Google Sheets untuk kemudahan kolaborasi multi-pengguna tanpa server tambahan.
+          </p>
+          <div class="flex flex-wrap gap-3 mt-8">
+            <button onclick="switchTab('transaksi')" class="bg-white hover:bg-indigo-50 text-slate-900 font-bold text-sm px-6 py-3 rounded-xl transition-all">Buka Spreadsheet</button>
+            <button onclick="switchTab('google-sheets')" class="bg-indigo-600/50 hover:bg-indigo-600/80 text-white border border-indigo-500/30 font-bold text-sm px-6 py-3 rounded-xl transition-all">Atur Google Sheets Sync</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kartu Metrik Keuangan -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Kartu Saldo -->
+        <div class="relative overflow-hidden bg-gradient-to-br from-indigo-600 to-violet-700 text-white p-6 sm:p-8 rounded-2xl shadow-xl shadow-indigo-600/10">
+          <p class="text-xs font-bold text-indigo-200 tracking-wider uppercase">Saldo Bersih Saat Ini</p>
+          <p id="metric-saldo" class="text-2xl sm:text-3.5xl font-extrabold mt-2 tracking-tight">Rp 0</p>
+          <div class="mt-6 flex items-center justify-between text-xs text-indigo-100">
+            <span>Arus Kas Bisnis</span>
+            <span id="metric-status-tag" class="px-2 py-1 rounded bg-white/20 font-bold">Surplus</span>
+          </div>
+        </div>
+        <!-- Kartu Pemasukan -->
+        <div class="bg-white border border-slate-100/90 p-6 sm:p-8 rounded-2xl shadow-sm">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-xs font-bold text-slate-400 tracking-wider uppercase">Total Pendapatan</p>
+              <p id="metric-pemasukan" class="text-2xl sm:text-3xl font-extrabold mt-2 text-emerald-600 tracking-tight">Rp 0</p>
+            </div>
+            <span class="p-3 bg-emerald-50 rounded-xl text-emerald-600 text-lg">📈</span>
+          </div>
+        </div>
+        <!-- Kartu Pengeluaran -->
+        <div class="bg-white border border-slate-100/90 p-6 sm:p-8 rounded-2xl shadow-sm">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-xs font-bold text-slate-400 tracking-wider uppercase">Total Pengeluaran</p>
+              <p id="metric-pengeluaran" class="text-2xl sm:text-3xl font-extrabold mt-2 text-rose-600 tracking-tight">Rp 0</p>
+            </div>
+            <span class="p-3 bg-rose-50 rounded-xl text-rose-600 text-lg">📉</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Split Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Kolom Kiri: Alokasi & Riwayat -->
+        <div class="lg:col-span-2 space-y-8">
+          <!-- Kategori Populer -->
+          <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+            <h3 class="font-extrabold text-lg text-slate-900 mb-6">Alokasi Kategori Laporan</h3>
+            <div id="category-distribution-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              <!-- Render otomatis via JS -->
+            </div>
+          </div>
+
+          <!-- Histori Transaksi Terbaru -->
+          <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+            <div class="flex items-center justify-between mb-6">
+              <h3 class="font-extrabold text-lg text-slate-900">Histori Transaksi Terakhir</h3>
+              <button onclick="switchTab('transaksi')" class="text-xs text-indigo-600 font-bold hover:underline">Buka Semua →</button>
+            </div>
+            <div id="recent-transactions-list" class="space-y-3">
+              <!-- Render otomatis via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Kolom Kanan: Widget Input Cepat -->
+        <div class="lg:col-span-1">
+          <div class="sticky top-28 bg-white border border-slate-100 rounded-2xl p-6 shadow-xl shadow-slate-100/40">
+            <h3 class="font-extrabold text-lg text-slate-900 mb-2">Tambah Transaksi</h3>
+            <p class="text-xs text-slate-400 mb-6">Pencatatan real-time instan dengan validasi otomatis.</p>
+
+            <form id="add-transaction-form" onsubmit="handleAddTransaction(event)" class="space-y-4">
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Jenis Transaksi</label>
+                <div class="grid grid-cols-2 gap-2">
+                  <button type="button" onclick="setFormType('Pemasukan')" id="btn-type-pemasukan" class="py-2.5 rounded-xl font-bold text-xs transition-all bg-slate-50 text-slate-600">📥 Pemasukan</button>
+                  <button type="button" onclick="setFormType('Pengeluaran')" id="btn-type-pengeluaran" class="py-2.5 rounded-xl font-bold text-xs transition-all bg-rose-500 text-white shadow-md">📤 Pengeluaran</button>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Deskripsi Transaksi</label>
+                <input type="text" id="input-deskripsi" placeholder="Contoh: Pembayaran Klien" required class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Kategori</label>
+                <select id="input-kategori" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all">
+                  <!-- Diisi otomatis via JS -->
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Jumlah (Rp)</label>
+                <input type="number" id="input-jumlah" placeholder="Contoh: 1500000" required class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Tanggal</label>
+                <input type="date" id="input-tanggal" required class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all">
+              </div>
+
+              <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm py-4 rounded-xl shadow-lg shadow-indigo-600/10 transition-all mt-4">Simpan Transaksi ✓</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= TAB 2: INTERACTIVE SPREADSHEET GRID ================= -->
+    <div id="tab-transaksi" class="tab-content space-y-6">
+      <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+          <div>
+            <h2 class="text-xl font-extrabold text-slate-900">Interactive Spreadsheet Grid</h2>
+            <p class="text-xs text-slate-400">Edit langsung data laporan keuangan Anda secara real-time pada tabel di bawah.</p>
+          </div>
+          
+          <div class="flex flex-wrap items-center gap-2">
+            <input type="text" id="search-grid" oninput="applyFilters()" placeholder="Cari transaksi..." class="bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <select id="filter-kategori" onchange="applyFilters()" class="bg-slate-50 border border-slate-100 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              <option value="Semua">Semua Kategori</option>
+            </select>
+            <select id="filter-jenis" onchange="applyFilters()" class="bg-slate-50 border border-slate-100 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              <option value="Semua">Semua Jenis</option>
+              <option value="Pemasukan">Pemasukan</option>
+              <option value="Pengeluaran">Pengeluaran</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto border border-slate-100 rounded-xl">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-50 border-b border-slate-100">
+                <th class="p-3 text-xs font-bold uppercase text-slate-400 w-12 text-center">#</th>
+                <th class="p-3 text-xs font-bold uppercase text-slate-400 w-32">Tanggal</th>
+                <th class="p-3 text-xs font-bold uppercase text-slate-400">Deskripsi</th>
+                <th class="p-3 text-xs font-bold uppercase text-slate-400 w-44">Kategori</th>
+                <th class="p-3 text-xs font-bold uppercase text-slate-400 w-36">Jenis</th>
+                <th class="p-3 text-xs font-bold uppercase text-slate-400 w-44 text-right">Jumlah</th>
+                <th class="p-3 text-xs font-bold uppercase text-slate-400 w-16 text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="spreadsheet-body" class="divide-y divide-slate-50 font-mono text-xs text-slate-700">
+              <!-- Render via JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center justify-between mt-4 text-xs text-slate-400 font-medium">
+          <span id="grid-row-info">Menampilkan 0 total baris laporan</span>
+          <span id="grid-total-info" class="mt-2 sm:mt-0 font-bold text-slate-700 bg-slate-50 border border-slate-100 px-3 py-1.5 rounded-lg">Total: Rp 0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= TAB 3: ANALISIS GRAFIK ================= -->
+    <div id="tab-analisis" class="tab-content space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Arus Kas -->
+        <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+          <h3 class="font-extrabold text-lg text-slate-900">Arus Kas Bulanan</h3>
+          <p class="text-xs text-slate-400 mb-6">Perbandingan visual pemasukan & pengeluaran usaha</p>
+          
+          <div class="relative h-64 w-full flex items-end gap-3 pt-6 border-b border-l border-slate-100">
+            <div class="flex-1 flex flex-col items-center justify-end h-full">
+              <div id="chart-in-bar" style="height: 0%" class="w-12 bg-gradient-to-t from-emerald-500 to-emerald-400 rounded-t-lg shadow-md transition-all duration-1000 flex items-center justify-center text-[10px] text-white font-bold">IN</div>
+              <span class="text-[10px] font-bold mt-2 text-slate-400">Pemasukan</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center justify-end h-full">
+              <div id="chart-out-bar" style="height: 0%" class="w-12 bg-gradient-to-t from-rose-500 to-rose-400 rounded-t-lg shadow-md transition-all duration-1000 flex items-center justify-center text-[10px] text-white font-bold">OUT</div>
+              <span class="text-[10px] font-bold mt-2 text-slate-400">Pengeluaran</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 mt-6 text-center">
+            <div class="p-3 bg-slate-50 rounded-xl">
+              <p class="text-xs text-slate-400">Rasio Pemasukan</p>
+              <p id="chart-ratio-in" class="text-lg font-bold text-emerald-600 mt-1">0%</p>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-xl">
+              <p class="text-xs text-slate-400">Rasio Pengeluaran</p>
+              <p id="chart-ratio-out" class="text-lg font-bold text-rose-600 mt-1">0%</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Distribusi Kategori -->
+        <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+          <h3 class="font-extrabold text-lg text-slate-900">Distribusi Kategori Pengeluaran</h3>
+          <p class="text-xs text-slate-400 mb-6">Persentase pengeluaran berdasarkan pos anggaran</p>
+          <div id="category-progress-container" class="space-y-4">
+            <!-- Render otomatis via JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= TAB 4: GOOGLE SHEETS SETUP ================= -->
+    <div id="tab-google-sheets" class="tab-content max-w-3xl mx-auto space-y-6">
+      <div class="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 shadow-sm relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-100/30 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="flex items-center gap-4 mb-6">
+          <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 text-2xl font-bold">🟩</div>
+          <div>
+            <h2 class="text-xl font-extrabold text-slate-900">Integrasi Google Sheets</h2>
+            <p class="text-xs text-slate-400">Metode instan untuk menjadikan Google Sheets sebagai database aman Anda.</p>
+          </div>
+        </div>
+
+        <!-- Koneksi Aktif Banner -->
+        <div id="active-sheet-banner" class="hidden mb-8 p-4 bg-emerald-50 border border-emerald-100 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="min-w-0 flex-1">
+            <span class="text-[10px] bg-emerald-600 text-white font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">Aktif</span>
+            <p id="active-sheet-url-text" class="text-xs text-slate-500 font-medium mt-1 truncate"></p>
+          </div>
+          <div class="flex gap-2 shrink-0">
+            <button onclick="syncCurrentSheet()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2 rounded-lg transition-all">Sync Sekarang ⟳</button>
+            <button onclick="disconnectGoogleSheets()" class="bg-white hover:bg-rose-50 text-rose-600 border border-rose-100 font-bold text-xs px-4 py-2 rounded-lg transition-all">Putuskan</button>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <h3 class="font-extrabold text-sm text-slate-900 uppercase tracking-wider border-b border-slate-100 pb-3">Petunjuk Setup Google Sheets</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="p-4 border border-slate-50 bg-[#FBFBFF] rounded-xl text-center space-y-2">
+              <span class="w-8 h-8 rounded-full bg-indigo-50 text-indigo-600 font-bold text-sm flex items-center justify-center mx-auto">1</span>
+              <p class="text-xs font-bold text-slate-800">Format Header</p>
+              <p class="text-[10px] text-slate-400">Judul kolom baris pertama harus: <br><strong>Tanggal</strong>, <strong>Deskripsi</strong>, <strong>Kategori</strong>, <strong>Jenis</strong>, <strong>Jumlah</strong>.</p>
+            </div>
+            <div class="p-4 border border-slate-50 bg-[#FBFBFF] rounded-xl text-center space-y-2">
+              <span class="w-8 h-8 rounded-full bg-indigo-50 text-indigo-600 font-bold text-sm flex items-center justify-center mx-auto">2</span>
+              <p class="text-xs font-bold text-slate-800">Publish ke Web</p>
+              <p class="text-[10px] text-slate-400">Pilih <strong>File</strong> &gt; <strong>Bagikan</strong> &gt; <strong>Publikasikan ke Web</strong>. Pilih opsi format <strong>Nilai Terpisah Koma (.csv)</strong>.</p>
+            </div>
+            <div class="p-4 border border-slate-50 bg-[#FBFBFF] rounded-xl text-center space-y-2">
+              <span class="w-8 h-8 rounded-full bg-indigo-50 text-indigo-600 font-bold text-sm flex items-center justify-center mx-auto">3</span>
+              <p class="text-xs font-bold text-slate-800 font-sans">Tempel Link CSV</p>
+              <p class="text-[10px] text-slate-400">Salin link CSV tersebut lalu tempel pada input field di bawah ini.</p>
+            </div>
+          </div>
+
+          <div class="pt-6 border-t border-slate-100">
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Tautan Publikasi Google Sheets (.csv)</label>
+            <div class="flex flex-col sm:flex-row gap-2">
+              <input type="url" id="input-sheet-url" placeholder="https://docs.google.com/spreadsheets/d/e/.../pub?output=csv" class="flex-1 bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              <button onclick="connectGoogleSheets()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-6 py-3 rounded-xl shadow-lg shadow-indigo-600/10 transition-all">Hubungkan & Sinkronkan</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- --- FOOTER --- -->
+  <footer class="bg-slate-950 text-slate-500 py-12 mt-16 border-t border-slate-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+      <p class="text-sm font-bold text-slate-300">FinoLedger — Professional Financial Reporting</p>
+      <p class="text-xs">Didesain dengan UI/UX modern premium, aman tanpa database eksternal berbayar, dan siap deploy gratis.</p>
+      <div class="pt-4 border-t border-slate-900 text-[10px]">
+        &copy; 2026 FinoLedger. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- --- JAVASCRIPT LOGIC --- -->
+  <script>
+    // === DATA & STATE ===
+    const CATEGORIES = [
+      { name: 'Layanan Jasa', icon: '💼', color: 'bg-emerald-100 text-emerald-700' },
+      { name: 'Operasional', icon: '⚙️', color: 'bg-blue-100 text-blue-700' },
+      { name: 'Pemasaran', icon: '📢', color: 'bg-purple-100 text-purple-700' },
+      { name: 'SDM', icon: '👥', color: 'bg-amber-100 text-amber-700' },
+      { name: 'Investasi', icon: '📈', color: 'bg-indigo-100 text-indigo-700' },
+      { name: 'Lainnya', icon: '📝', color: 'bg-slate-100 text-slate-700' }
+    ];
+
+    const INITIAL_TRANSACTIONS = [
+      { id: '1', tanggal: '2026-06-25', deskripsi: 'Pembayaran Klien - PT Tech Indo', kategori: 'Layanan Jasa', jenis: 'Pemasukan', jumlah: 25000000 },
+      { id: '2', tanggal: '2026-06-24', deskripsi: 'Sewa Server Vercel & Supabase', kategori: 'Operasional', jenis: 'Pengeluaran', jumlah: 1500000 },
+      { id: '3', tanggal: '2026-06-22', deskripsi: 'Biaya Iklan Meta & Google Ads', kategori: 'Pemasaran', jenis: 'Pengeluaran', jumlah: 4200000 },
+      { id: '4', tanggal: '2026-06-20', deskripsi: 'Gaji Tim Developer & UI Designer', kategori: 'SDM', jenis: 'Pengeluaran', jumlah: 12000000 },
+      { id: '5', tanggal: '2026-06-18', deskripsi: 'Dana Hibah Startup Akselerator', kategori: 'Investasi', jenis: 'Pemasukan', jumlah: 50000000 },
+      { id: '6', tanggal: '2026-06-15', deskripsi: 'Langganan Adobe Creative Cloud', kategori: 'Operasional', jenis: 'Pengeluaran', jumlah: 850000 },
+    ];
+
+    let transactions = [];
+    let currentFormType = 'Pengeluaran';
+    let pendingDeleteId = null;
+
+    // === TOAST & MODAL FUNCTIONS (Anti-XSS / Safe UI) ===
+    function showToast(message, icon = '💡') {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-icon').textContent = icon;
+      document.getElementById('toast-message').textContent = message;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+
+    function askConfirmation(id) {
+      pendingDeleteId = id;
+      const modal = document.getElementById('confirm-modal');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modal.querySelector('div').classList.remove('scale-95');
+      modal.querySelector('div').classList.add('scale-100');
+    }
+
+    function closeConfirmation() {
+      pendingDeleteId = null;
+      const modal = document.getElementById('confirm-modal');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      modal.querySelector('div').classList.remove('scale-100');
+      modal.querySelector('div').classList.add('scale-95');
+    }
+
+    document.getElementById('confirm-cancel').addEventListener('click', closeConfirmation);
+    document.getElementById('confirm-yes').addEventListener('click', () => {
+      if (pendingDeleteId) {
+        transactions = transactions.filter(tx => tx.id !== pendingDeleteId);
+        saveAndRender();
+        showToast('Transaksi berhasil dihapus!', '🗑️');
+      }
+      closeConfirmation();
+    });
+
+    // === INITIALIZATION ===
+    window.onload = function() {
+      // Ambil data dari LocalStorage
+      const savedData = localStorage.getItem('fino_html_ledger_data');
+      if (savedData) {
+        transactions = JSON.parse(savedData);
+      } else {
+        transactions = [...INITIAL_TRANSACTIONS];
+      }
+
+      // Atur Tanggal Hari ini
+      document.getElementById('input-tanggal').value = new Date().toISOString().split('T')[0];
+
+      // Render Dropdowns & UI Elements
+      initDropdowns();
+      checkActiveSheet();
+      saveAndRender();
+    };
+
+    function initDropdowns() {
+      const catSelect = document.getElementById('input-kategori');
+      const catFilter = document.getElementById('filter-kategori');
+      
+      CATEGORIES.forEach(cat => {
+        // Dropdown input form
+        const opt = document.createElement('option');
+        opt.value = cat.name;
+        opt.textContent = `${cat.icon} ${cat.name}`;
+        catSelect.appendChild(opt);
+
+        // Dropdown filter spreadsheet
+        const optFilter = document.createElement('option');
+        optFilter.value = cat.name;
+        optFilter.textContent = cat.name;
+        catFilter.appendChild(optFilter);
+      });
+    }
+
+    // === TAB SWITCHING ===
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.getElementById('tab-' + tabId).classList.add('active');
+
+      // Update Nav Class
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.className = "nav-btn px-5 py-2 rounded-lg text-sm font-semibold tracking-wide transition-all text-slate-600 hover:text-slate-950";
+      });
+      const activeNav = document.getElementById('nav-' + tabId);
+      if (activeNav) {
+        activeNav.className = "nav-btn px-5 py-2 rounded-lg text-sm font-semibold tracking-wide transition-all bg-white text-indigo-600 shadow-sm";
+      }
+    }
+
+    // === UTILITIES ===
+    function formatIDR(num) {
+      return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num);
+    }
+
+    // Anti XSS String Escape Utility
+    function escapeHTML(str) {
+      return str.replace(/[&<>'"]/g, 
+        tag => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          "'": '&#39;',
+          '"': '&quot;'
+        }[tag] || tag)
+      );
+    }
+
+    // === STATE MANAGEMENT & RENDERING ===
+    function saveAndRender() {
+      localStorage.setItem('fino_html_ledger_data', JSON.stringify(transactions));
+      
+      // Hitung metrik keuangan
+      let pemasukan = 0;
+      let pengeluaran = 0;
+
+      transactions.forEach(tx => {
+        if (tx.jenis === 'Pemasukan') pemasukan += tx.jumlah;
+        else pengeluaran += tx.jumlah;
+      });
+
+      const saldo = pemasukan - pengeluaran;
+
+      // Render metrik ke layar
+      document.getElementById('metric-saldo').textContent = formatIDR(saldo);
+      document.getElementById('metric-pemasukan').textContent = formatIDR(pemasukan);
+      document.getElementById('metric-pengeluaran').textContent = formatIDR(pengeluaran);
+
+      const statusTag = document.getElementById('metric-status-tag');
+      if (saldo >= 0) {
+        statusTag.textContent = 'Surplus';
+        statusTag.className = 'px-2 py-1 rounded bg-white/20 font-bold text-emerald-200';
+      } else {
+        statusTag.textContent = 'Defisit';
+        statusTag.className = 'px-2 py-1 rounded bg-white/20 font-bold text-rose-200';
+      }
+
+      renderCategoryGrid();
+      renderRecentTransactions();
+      applyFilters();
+      renderCharts(pemasukan, pengeluaran);
+    }
+
+    // Render Kategori Grid di Dashboard
+    function renderCategoryGrid() {
+      const grid = document.getElementById('category-distribution-grid');
+      grid.innerHTML = '';
+
+      CATEGORIES.forEach(cat => {
+        const total = transactions
+          .filter(tx => tx.kategori === cat.name)
+          .reduce((sum, tx) => sum + tx.jumlah, 0);
+
+        grid.innerHTML += `
+          <div class="p-4 border border-slate-50 rounded-xl bg-[#FBFBFF] flex items-center gap-3">
+            <span class="text-2xl">${cat.icon}</span>
+            <div>
+              <p class="text-xs text-slate-400 font-medium">${cat.name}</p>
+              <p class="text-sm font-bold text-slate-800 mt-1">${formatIDR(total)}</p>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // Render 5 Transaksi Terakhir di Dashboard
+    function renderRecentTransactions() {
+      const container = document.getElementById('recent-transactions-list');
+      container.innerHTML = '';
+
+      const sliced = transactions.slice(0, 5);
+
+      if (sliced.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-10">
+            <span class="text-4xl">📭</span>
+            <p class="text-sm text-slate-400 font-semibold mt-3">Tidak ada data transaksi. Tambahkan sekarang!</p>
+          </div>
+        `;
+        return;
+      }
+
+      sliced.forEach(tx => {
+        const isMasuk = tx.jenis === 'Pemasukan';
+        container.innerHTML += `
+          <div class="group flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border border-slate-50 hover:border-slate-100 rounded-xl hover:bg-slate-50/50 transition-all gap-3">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm ${isMasuk ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-700'}">
+                ${isMasuk ? '＋' : '－'}
+              </div>
+              <div>
+                <p class="text-sm font-bold text-slate-800 group-hover:text-indigo-600 transition-colors">${escapeHTML(tx.deskripsi)}</p>
+                <div class="flex items-center gap-2 mt-1">
+                  <span class="text-[10px] bg-slate-100 text-slate-500 font-semibold px-2 py-0.5 rounded-full">${escapeHTML(tx.kategori)}</span>
+                  <span class="text-[10px] text-slate-400 font-medium">${tx.tanggal}</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
+              <p class="text-sm font-extrabold ${isMasuk ? 'text-emerald-600' : 'text-slate-800'}">
+                ${isMasuk ? '+' : '-'} ${formatIDR(tx.jumlah)}
+              </p>
+              <button onclick="askConfirmation('${tx.id}')" class="text-slate-300 hover:text-rose-500 transition-colors p-1" title="Hapus">
+                🗑️
+              </button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // === ADD TRANSACTION LOGIC ===
+    function setFormType(type) {
+      currentFormType = type;
+      const btnIn = document.getElementById('btn-type-pemasukan');
+      const btnOut = document.getElementById('btn-type-pengeluaran');
+
+      if (type === 'Pemasukan') {
+        btnIn.className = "py-2.5 rounded-xl font-bold text-xs transition-all bg-emerald-500 text-white shadow-md";
+        btnOut.className = "py-2.5 rounded-xl font-bold text-xs transition-all bg-slate-50 text-slate-600";
+      } else {
+        btnIn.className = "py-2.5 rounded-xl font-bold text-xs transition-all bg-slate-50 text-slate-600";
+        btnOut.className = "py-2.5 rounded-xl font-bold text-xs transition-all bg-rose-500 text-white shadow-md";
+      }
+    }
+
+    function handleAddTransaction(e) {
+      e.preventDefault();
+      const deskripsi = document.getElementById('input-deskripsi').value;
+      const kategori = document.getElementById('input-kategori').value;
+      const jumlah = parseFloat(document.getElementById('input-jumlah').value);
+      const tanggal = document.getElementById('input-tanggal').value;
+
+      if (!deskripsi || isNaN(jumlah)) {
+        showToast('Mohon lengkapi semua data secara valid.', '⚠️');
+        return;
+      }
+
+      const newTx = {
+        id: Date.now().toString(),
+        tanggal,
+        deskripsi,
+        kategori,
+        jenis: currentFormType,
+        jumlah
+      };
+
+      transactions.unshift(newTx);
+      saveAndRender();
+      
+      // Reset Form
+      document.getElementById('input-deskripsi').value = '';
+      document.getElementById('input-jumlah').value = '';
+      showToast('Transaksi baru berhasil disimpan!', '✅');
+    }
+
+    // === SPREADSHEET GRID LOGIC ===
+    function applyFilters() {
+      const search = document.getElementById('search-grid').value.toLowerCase();
+      const kat = document.getElementById('filter-kategori').value;
+      const jen = document.getElementById('filter-jenis').value;
+
+      const filtered = transactions.filter(tx => {
+        const matchSearch = tx.deskripsi.toLowerCase().includes(search) || tx.kategori.toLowerCase().includes(search);
+        const matchKategori = kat === 'Semua' || tx.kategori === kat;
+        const matchJenis = jen === 'Semua' || tx.jenis === jen;
+        return matchSearch && matchKategori && matchJenis;
+      });
+
+      renderGridTable(filtered);
+    }
+
+    function renderGridTable(filteredData) {
+      const tbody = document.getElementById('spreadsheet-body');
+      tbody.innerHTML = '';
+
+      filteredData.forEach((tx, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-indigo-50/20 transition-all group";
+        
+        tr.innerHTML = `
+          <td class="p-3 text-center text-slate-400 font-semibold">${idx + 1}</td>
+          <td class="p-3">
+            <input type="date" value="${tx.tanggal}" onchange="updateCell('${tx.id}', 'tanggal', this.value)" class="bg-transparent hover:bg-white focus:bg-white border-0 focus:ring-1 focus:ring-indigo-500 rounded p-1 w-full transition-all">
+          </td>
+          <td class="p-3">
+            <input type="text" value="${escapeHTML(tx.deskripsi)}" onchange="updateCell('${tx.id}', 'deskripsi', this.value)" class="bg-transparent hover:bg-white focus:bg-white border-0 focus:ring-1 focus:ring-indigo-500 rounded p-1 w-full font-sans font-medium text-slate-800 transition-all">
+          </td>
+          <td class="p-3">
+            <select onchange="updateCell('${tx.id}', 'kategori', this.value)" class="bg-transparent hover:bg-white focus:bg-white border-0 focus:ring-1 focus:ring-indigo-500 rounded p-1 w-full font-sans transition-all">
+              ${CATEGORIES.map(cat => `<option value="${cat.name}" ${tx.kategori === cat.name ? 'selected' : ''}>${cat.icon} ${cat.name}</option>`).join('')}
+            </select>
+          </td>
+          <td class="p-3">
+            <select onchange="updateCell('${tx.id}', 'jenis', this.value)" class="bg-transparent hover:bg-white focus:bg-white border-0 focus:ring-1 focus:ring-indigo-500 rounded p-1 w-full font-sans font-bold transition-all ${tx.jenis === 'Pemasukan' ? 'text-emerald-600' : 'text-slate-700'}">
+              <option value="Pemasukan" ${tx.jenis === 'Pemasukan' ? 'selected' : ''}>📥 Pemasukan</option>
+              <option value="Pengeluaran" ${tx.jenis === 'Pengeluaran' ? 'selected' : ''}>📤 Pengeluaran</option>
+            </select>
+          </td>
+          <td class="p-3">
+            <input type="number" value="${tx.jumlah}" onchange="updateCell('${tx.id}', 'jumlah', parseFloat(this.value) || 0)" class="bg-transparent hover:bg-white focus:bg-white border-0 focus:ring-1 focus:ring-indigo-500 rounded p-1 w-full text-right font-bold text-slate-950 transition-all">
+          </td>
+          <td class="p-3 text-center">
+            <button onclick="askConfirmation('${tx.id}')" class="opacity-0 group-hover:opacity-100 text-rose-400 hover:text-rose-600 font-bold transition-all px-2 py-1" title="Hapus">🗑️</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Update grid row info & total
+      document.getElementById('grid-row-info').textContent = `Menampilkan ${filteredData.length} dari ${transactions.length} total baris laporan`;
+      const filteredSum = filteredData.reduce((acc, tx) => acc + (tx.jenis === 'Pemasukan' ? tx.jumlah : -tx.jumlah), 0);
+      document.getElementById('grid-total-info').textContent = `Total Terfilter: ${formatIDR(filteredSum)}`;
+    }
+
+    function updateCell(id, field, value) {
+      transactions = transactions.map(tx => {
+        if (tx.id === id) {
+          return { ...tx, [field]: value };
+        }
+        return tx;
+      });
+      saveAndRender();
+      showToast('Perubahan spreadsheet disimpan!', '💾');
+    }
+
+    // === ANALISIS GRAFIK LOGIC ===
+    function renderCharts(pemasukan, pengeluaran) {
+      const total = pemasukan + pengeluaran || 1;
+      const inPercent = (pemasukan / total) * 100;
+      const outPercent = (pengeluaran / total) * 100;
+
+      // Update Arus Kas Bulanan
+      document.getElementById('chart-in-bar').style.height = `${inPercent}%`;
+      document.getElementById('chart-out-bar').style.height = `${outPercent}%`;
+      document.getElementById('chart-ratio-in').textContent = `${inPercent.toFixed(1)}%`;
+      document.getElementById('chart-ratio-out').textContent = `${outPercent.toFixed(1)}%`;
+
+      // Update Distribusi Pengeluaran Kategori
+      const categoryContainer = document.getElementById('category-progress-container');
+      categoryContainer.innerHTML = '';
+
+      CATEGORIES.forEach(cat => {
+        const catVal = transactions
+          .filter(tx => tx.kategori === cat.name && tx.jenis === 'Pengeluaran')
+          .reduce((sum, tx) => sum + tx.jumlah, 0);
+
+        const catPercent = pengeluaran > 0 ? (catVal / pengeluaran) * 100 : 0;
+
+        categoryContainer.innerHTML += `
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs font-bold">
+              <span class="text-slate-700 flex items-center gap-1.5">
+                <span>${cat.icon}</span>
+                ${cat.name}
+              </span>
+              <span class="text-slate-400">${formatIDR(catVal)} (${catPercent.toFixed(1)}%)</span>
+            </div>
+            <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+              <div style="width: ${catPercent}%" class="h-full bg-indigo-600 rounded-full transition-all duration-1000"></div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // === GOOGLE SHEETS SYNC LOGIC ===
+    function checkActiveSheet() {
+      const savedSheet = localStorage.getItem('fino_html_sheet_url');
+      const banner = document.getElementById('active-sheet-banner');
+      const dot = document.getElementById('sync-dot');
+      const dbStatus = document.getElementById('db-status');
+
+      if (savedSheet) {
+        document.getElementById('input-sheet-url').value = savedSheet;
+        document.getElementById('active-sheet-url-text').textContent = savedSheet;
+        banner.classList.remove('hidden');
+        dot.classList.remove('hidden');
+        
+        dbStatus.className = "hidden lg:flex items-center gap-1.5 text-xs bg-emerald-50 text-emerald-700 font-bold px-3 py-1.5 rounded-full border border-emerald-100";
+        dbStatus.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500"></span> Connected to Sheets`;
+      } else {
+        banner.classList.add('hidden');
+        dot.classList.add('hidden');
+        
+        dbStatus.className = "hidden lg:flex items-center gap-1.5 text-xs bg-amber-50 text-amber-700 font-bold px-3 py-1.5 rounded-full border border-amber-100";
+        dbStatus.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500"></span> Database Lokal`;
+      }
+    }
+
+    async function connectGoogleSheets() {
+      let url = document.getElementById('input-sheet-url').value.trim();
+      if (!url) {
+        showToast('Silakan tempel tautan Google Sheets terlebih dahulu.', '⚠️');
+        return;
+      }
+
+      // Convert normal sharing link to CSV export link
+      if (url.includes('/edit')) {
+        url = url.replace(/\/edit.*$/, '/export?format=csv');
+      } else if (!url.endsWith('output=csv') && url.includes('docs.google.com/spreadsheets')) {
+        url = url + (url.includes('?') ? '&' : '?') + 'output=csv';
+      }
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Pastikan spreadsheet Anda telah dipublikasikan ke web.');
+
+        const csvText = await response.text();
+        const parsed = parseCSV(csvText);
+
+        if (parsed.length === 0) throw new Error('Data tidak ditemukan atau struktur kolom salah.');
+
+        transactions = parsed;
+        localStorage.setItem('fino_html_sheet_url', url);
+        saveAndRender();
+        checkActiveSheet();
+        showToast('Selesai! Google Sheets berhasil disinkronkan.', '🟩');
+      } catch (err) {
+        showToast(err.message, '❌');
+      }
+    }
+
+    function syncCurrentSheet() {
+      const url = localStorage.getItem('fino_html_sheet_url');
+      if (url) connectGoogleSheets();
+    }
+
+    function disconnectGoogleSheets() {
+      closeConfirmation();
+      localStorage.removeItem('fino_html_sheet_url');
+      transactions = [...INITIAL_TRANSACTIONS];
+      document.getElementById('input-sheet-url').value = '';
+      saveAndRender();
+      checkActiveSheet();
+      showToast('Koneksi Google Sheets berhasil diputus!', 'ℹ️');
+    }
+
+    // Safe CSV Parser (Bebas dari Injeksi XSS)
+    function parseCSV(text) {
+      const lines = text.split(/\r?\n/);
+      if (lines.length < 2) return [];
+
+      const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+      const data = [];
+
+      for (let i = 1; i < lines.length; i++) {
+        if (!lines[i]) continue;
+        
+        // Regex untuk membaca CSV dengan koma di dalam teks bertanda kutip
+        const row = lines[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || lines[i].split(',');
+        const cleanRow = row.map(val => val.replace(/^"|"$/g, '').trim());
+
+        if (cleanRow.length < 5) continue;
+
+        const isMasuk = cleanRow[3] && cleanRow[3].toLowerCase().includes('masuk');
+        const count = parseFloat(cleanRow[4].replace(/[^0-9.-]+/g, '')) || 0;
+
+        const tx = {
+          id: `gsheet-${i}-${Date.now()}`,
+          tanggal: cleanRow[0] || new Date().toISOString().split('T')[0],
+          deskripsi: cleanRow[1] || 'Transaksi Tanpa Nama',
+          kategori: cleanRow[2] || 'Lainnya',
+          jenis: isMasuk ? 'Pemasukan' : 'Pengeluaran',
+          jumlah: count
+        };
+        data.push(tx);
+      }
+      return data;
+    }
+  </script>
+</body>
+</html>
