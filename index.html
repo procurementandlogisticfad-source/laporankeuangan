@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alur Digital Finance - Sistem Manajemen Keuangan </title>
+  <title>Alur Digital Finance - Sistem Manajemen Keuangan SaaS</title>
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -94,7 +94,7 @@
       </div>
       <div>
         <span class="font-title font-extrabold text-lg tracking-tight text-brand-900">Alur<span class="text-brand-500">Digital</span></span>
-        <span class="text-[10px] block font-bold tracking-widest text-slate-400 uppercase"> Finance Ledger</span>
+        <span class="text-[10px] block font-bold tracking-widest text-slate-400 uppercase">SaaS Finance Ledger</span>
       </div>
     </div>
 
@@ -116,7 +116,7 @@
       </button>
     </nav>
 
-    <!-- Kaki Sidebar: Pengaturan API & Status Koneksi -->
+    <!-- Kaki Sidebar: Pengaturan API, Status Koneksi, & Profil Interaktif Desktop -->
     <div class="mt-auto pt-6 border-t border-slate-100 space-y-4">
       <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100">
         <div class="flex items-center justify-between mb-2">
@@ -128,6 +128,17 @@
           <i data-lucide="settings" class="w-3 h-3"></i> Konfigurasi Cloud
         </button>
       </div>
+
+      <!-- User Profile Terintegrasi sebagai Tombol Edit Profil di Desktop (Menggantikan Header Atas) -->
+      <button onclick="openProfileModal()" class="flex items-center space-x-3 w-full pl-1.5 hover:bg-slate-50 p-2 rounded-2xl transition duration-200 text-left border border-transparent hover:border-slate-100">
+        <div class="h-10 w-10 rounded-xl bg-brand-100 border border-brand-200 flex items-center justify-center text-brand-600 shadow-inner shrink-0">
+          <i data-lucide="user" class="w-5 h-5"></i>
+        </div>
+        <div class="truncate">
+          <span class="text-xs font-bold block text-slate-800 leading-tight profile-name">Afifah Alfarisi</span>
+          <span class="text-[10px] text-slate-400 font-semibold block mt-0.5 profile-role">Accountant Manager</span>
+        </div>
+      </button>
     </div>
   </aside>
 
@@ -168,98 +179,77 @@
     </nav>
   </div>
 
-  <!-- MAIN AREA (Dilengkapi dengan Header Bar Persis di Monitor 82154.jpg) -->
-  <main class="flex-grow p-4 sm:p-8 md:p-10 pb-24 md:pb-10 overflow-y-auto max-w-full space-y-8">
-    
-    <!-- TOP HEADER PROFILE BAR (Tanpa Notifikasi, Dilengkapi Fitur Edit Profil Berbentuk Ikon Orang) -->
-    <div class="hidden md:flex items-center justify-between border-b border-slate-200/60 pb-6">
-      <div class="relative w-96">
-        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-4 top-1/2 transform -translate-y-1/2"></i>
-        <input type="text" placeholder="Search anything, records, analytics..." 
-               class="w-full pl-11 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500/10 focus:border-brand-500 transition-all">
-      </div>
-      
-      <!-- User Profile Interaktif untuk Edit Profil (Berbentuk Ikon Orang - Sesuai Instruksi) -->
-      <button onclick="openProfileModal()" class="flex items-center space-x-3 pl-3 hover:bg-slate-100/50 p-2 rounded-xl transition duration-200 text-left">
-        <div class="h-10 w-10 rounded-xl bg-brand-100 border border-brand-200 flex items-center justify-center text-brand-600 shadow-inner">
-          <i data-lucide="user" class="w-5 h-5"></i>
-        </div>
-        <div>
-          <span class="text-xs font-bold block text-slate-800 leading-tight profile-name">Ava Mitchell</span>
-          <span class="text-[10px] text-slate-400 font-semibold block mt-0.5 profile-role">Family Law Associate</span>
-        </div>
-      </button>
-    </div>
+  <!-- MAIN AREA -->
+  <main class="flex-grow p-4 sm:p-6 md:p-8 pb-24 md:pb-10 overflow-y-auto max-w-full space-y-6">
 
     <!-- SUB-VIEW: OVERVIEW (DASHBOARD) -->
-    <section id="view-overview" class="tab-view space-y-8 animate-fade-in">
+    <section id="view-overview" class="tab-view space-y-6 animate-fade-in">
       
-      <!-- WELCOMING SECTION BERGAYA PREMIUM PERSIS `82155.jpg` (Gradient Lavender, headline besar, & 3 poin fitur) -->
-      <div class="relative rounded-3xl p-6 sm:p-10 overflow-hidden shadow-xl shadow-purple-900/5 border border-purple-100/40 bg-gradient-to-br from-[#eae3f7] via-[#f4edff] to-[#e3d7fa] grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <!-- WELCOMING SECTION BERGAYA PREMIUM PERSIS `82155.jpg` (Kompak & Pendek agar tidak memenuhi layar) -->
+      <div class="relative rounded-2xl p-4 sm:p-6 overflow-hidden shadow-lg shadow-purple-900/5 border border-purple-100/40 bg-gradient-to-br from-[#eae3f7] via-[#f4edff] to-[#e3d7fa] grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
         <!-- Dekorasi Gradasi Abstrak Latar Belakang -->
-        <div class="absolute -right-16 -bottom-16 w-64 h-64 bg-brand-200/20 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute -right-16 -bottom-16 w-48 h-48 bg-brand-200/20 rounded-full blur-xl pointer-events-none"></div>
         
-        <!-- Sisi Kiri: Headline, Subtitle, & Tiga Kartu Fitur Komponen (Sesuai Gambar 82155.jpg) -->
-        <div class="lg:col-span-7 space-y-6">
-          <div class="space-y-3">
-            <span class="text-[10px] font-extrabold text-brand-700 uppercase tracking-widest bg-brand-500/10 px-3 py-1.5 rounded-full border border-brand-500/20">Modern Finance Platform</span>
-            <h1 id="welcome-headline" class="font-title text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
-              Need a Modern <br>
-              <span class="text-brand-600">Finance Ledger</span> <br>
-              Platform?
+        <!-- Sisi Kiri: Headline, Subtitle, & Tiga Kartu Fitur Komponen Compact -->
+        <div class="lg:col-span-8 space-y-4">
+          <div class="space-y-1.5">
+            <span class="text-[9px] font-extrabold text-brand-700 uppercase tracking-widest bg-brand-500/10 px-2.5 py-1 rounded-full border border-brand-500/20 inline-block">Modern Finance Platform</span>
+            <h1 id="welcome-headline" class="font-title text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-slate-900 leading-tight">
+              Need a Modern <br class="hidden sm:inline">
+              <span class="text-brand-600">Finance Ledger</span> Platform?
             </h1>
-            <p class="text-xs sm:text-sm text-slate-600 max-w-lg leading-relaxed font-medium">
+            <p class="text-[11px] text-slate-600 max-w-lg font-medium leading-relaxed">
               Sistem pencatatan keuangan premium berbasis cloud yang intuitif, aman, dan menyajikan laporan visualisasi korporat secara real-time.
             </p>
           </div>
 
-          <!-- Tiga Kartu Fitur Model Grid Vertikal (Persis Layout 82155.jpg) -->
-          <div class="space-y-3 max-w-xl">
+          <!-- Tiga Kartu Fitur Model Grid Vertikal Pendek -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 max-w-3xl">
             <!-- Fitur 1 -->
-            <div class="flex items-start gap-3 p-3 bg-white/60 backdrop-blur-md rounded-2xl border border-white/40 shadow-sm transition hover:bg-white/80 duration-200">
-              <div class="p-2 bg-brand-100 rounded-xl text-brand-600 shrink-0">
-                <i data-lucide="cloud-lightning" class="w-4.5 h-4.5"></i>
+            <div class="flex items-center gap-2.5 p-2 bg-white/60 backdrop-blur-md rounded-xl border border-white/40 shadow-sm transition hover:bg-white/80 duration-200">
+              <div class="p-1.5 bg-brand-100 rounded-lg text-brand-600 shrink-0">
+                <i data-lucide="cloud-lightning" class="w-3.5 h-3.5"></i>
               </div>
-              <div>
-                <h4 class="font-bold text-slate-800 text-xs">Cloud Sheets Sync</h4>
-                <p class="text-[10px] text-slate-500 mt-0.5">Sinkronisasi otomatis basis data global dua arah dengan Google Sheets gratis.</p>
+              <div class="truncate">
+                <h4 class="font-bold text-slate-800 text-[10px] truncate">Cloud Sheets Sync</h4>
+                <p class="text-[9px] text-slate-500 truncate">Sinkronisasi otomatis basis data global.</p>
               </div>
             </div>
 
             <!-- Fitur 2 -->
-            <div class="flex items-start gap-3 p-3 bg-white/60 backdrop-blur-md rounded-2xl border border-white/40 shadow-sm transition hover:bg-white/80 duration-200">
-              <div class="p-2 bg-brand-100 rounded-xl text-brand-600 shrink-0">
-                <i data-lucide="sliders" class="w-4.5 h-4.5"></i>
+            <div class="flex items-center gap-2.5 p-2 bg-white/60 backdrop-blur-md rounded-xl border border-white/40 shadow-sm transition hover:bg-white/80 duration-200">
+              <div class="p-1.5 bg-brand-100 rounded-lg text-brand-600 shrink-0">
+                <i data-lucide="sliders" class="w-3.5 h-3.5"></i>
               </div>
-              <div>
-                <h4 class="font-bold text-slate-800 text-xs">Segmented Categories</h4>
-                <p class="text-[10px] text-slate-500 mt-0.5">Pemisahan dinamis kategori pendapatan dan pengeluaran secara terstruktur.</p>
+              <div class="truncate">
+                <h4 class="font-bold text-slate-800 text-[10px] truncate">Segmented Categories</h4>
+                <p class="text-[9px] text-slate-500 truncate">Pemisahan dinamis kategori kas.</p>
               </div>
             </div>
 
             <!-- Fitur 3 -->
-            <div class="flex items-start gap-3 p-3 bg-white/60 backdrop-blur-md rounded-2xl border border-white/40 shadow-sm transition hover:bg-white/80 duration-200">
-              <div class="p-2 bg-brand-100 rounded-xl text-brand-600 shrink-0">
-                <i data-lucide="file-check-2" class="w-4.5 h-4.5"></i>
+            <div class="flex items-center gap-2.5 p-2 bg-white/60 backdrop-blur-md rounded-xl border border-white/40 shadow-sm transition hover:bg-white/80 duration-200">
+              <div class="p-1.5 bg-brand-100 rounded-lg text-brand-600 shrink-0">
+                <i data-lucide="file-check-2" class="w-3.5 h-3.5"></i>
               </div>
-              <div>
-                <h4 class="font-bold text-slate-800 text-xs">Journal Modification</h4>
-                <p class="text-[10px] text-slate-500 mt-0.5">Kemudahan memodifikasi, mengedit, dan menghapus riwayat entri langsung dari tabel.</p>
+              <div class="truncate">
+                <h4 class="font-bold text-slate-800 text-[10px] truncate">Journal Modification</h4>
+                <p class="text-[9px] text-slate-500 truncate">Kemudahan modifikasi entri.</p>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Sisi Kanan: Action Button Terpadu & Slogan Kreatif (Persis 82155.jpg) -->
-        <div class="lg:col-span-5 flex flex-col justify-center items-start lg:items-end space-y-4 lg:text-right">
-          <button onclick="focusFormInput()" class="flex items-center justify-between w-full sm:w-64 bg-[#4C35A3] hover:bg-[#3b2782] text-white px-5 py-4 rounded-2xl font-bold shadow-lg shadow-purple-900/20 transition-all duration-300">
+        <!-- Sisi Kanan: Action Button Terpadu Compact -->
+        <div class="lg:col-span-4 flex flex-col justify-center items-start lg:items-end space-y-2 lg:text-right">
+          <button onclick="focusFormInput()" class="flex items-center justify-between w-full sm:w-56 bg-[#4C35A3] hover:bg-[#3b2782] text-white px-4 py-3 rounded-xl font-bold text-xs shadow-md shadow-purple-900/10 transition-all duration-300">
             <span>Catat Kas Sekarang</span>
-            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
           </button>
           
-          <div class="flex items-center gap-2 text-[11px] text-slate-600 font-semibold cursor-pointer hover:text-slate-900 transition-colors">
+          <div class="flex items-center gap-1.5 text-[10px] text-slate-600 font-semibold cursor-pointer hover:text-slate-900 transition-colors">
             <div class="border border-slate-400 rounded-full p-0.5">
-              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+              <i data-lucide="chevron-right" class="w-3 h-3"></i>
             </div>
             <span>Let's organize your next digital transaction</span>
           </div>
@@ -268,82 +258,82 @@
       </div>
 
       <!-- KARTU METRIK UTAMA (KPI Modern & Intuitif dengan Visual Progress dan Indikator Margin) -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         
         <!-- Pemasukan Card -->
-        <div class="glass-card p-6 sm:p-7 rounded-3xl border border-slate-100/90 shadow-sm hover:shadow-md transition duration-300 group relative overflow-hidden">
-          <div class="absolute top-0 left-0 w-2 h-full bg-emerald-500"></div>
+        <div class="glass-card p-5 rounded-2xl border border-slate-100/90 shadow-sm hover:shadow-md transition duration-300 group relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-1.5 h-full bg-emerald-500"></div>
           <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Pendapatan</span>
-            <div class="bg-emerald-50 text-emerald-600 p-2.5 rounded-2xl group-hover:bg-emerald-100/80 transition-colors">
-              <i data-lucide="trending-up" class="w-5 h-5"></i>
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Pendapatan</span>
+            <div class="bg-emerald-50 text-emerald-600 p-2 rounded-xl group-hover:bg-emerald-100/80 transition-colors">
+              <i data-lucide="trending-up" class="w-4 h-4"></i>
             </div>
           </div>
-          <div class="mt-5 space-y-3">
-            <h3 id="stat-pemasukan" class="font-title text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Rp 0</h3>
+          <div class="mt-3 space-y-2">
+            <h3 id="stat-pemasukan" class="font-title text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">Rp 0</h3>
             <div class="space-y-1">
-              <div class="flex justify-between text-[10px] text-slate-400 font-bold uppercase">
+              <div class="flex justify-between text-[9px] text-slate-400 font-bold uppercase">
                 <span>Rasio Efisiensi Pemasukan</span>
                 <span id="kpi-pemasukan-percent" class="text-emerald-600 font-extrabold">100%</span>
               </div>
-              <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+              <div class="w-full bg-slate-100 h-1 rounded-full overflow-hidden">
                 <div class="bg-emerald-500 h-full rounded-full w-full" id="kpi-pemasukan-bar"></div>
               </div>
             </div>
-            <div class="text-[11px] font-bold text-emerald-600 flex items-center gap-1">
-              <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i> Arus Kas Masuk Terverifikasi
+            <div class="text-[10px] font-bold text-emerald-600 flex items-center gap-1">
+              <i data-lucide="arrow-up-right" class="w-3 h-3"></i> Arus Kas Masuk Terverifikasi
             </div>
           </div>
         </div>
 
         <!-- Pengeluaran Card -->
-        <div class="glass-card p-6 sm:p-7 rounded-3xl border border-slate-100/90 shadow-sm hover:shadow-md transition duration-300 group relative overflow-hidden">
-          <div class="absolute top-0 left-0 w-2 h-full bg-rose-500"></div>
+        <div class="glass-card p-5 rounded-2xl border border-slate-100/90 shadow-sm hover:shadow-md transition duration-300 group relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-1.5 h-full bg-rose-500"></div>
           <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Pengeluaran</span>
-            <div class="bg-rose-50 text-rose-600 p-2.5 rounded-2xl group-hover:bg-rose-100/80 transition-colors">
-              <i data-lucide="trending-down" class="w-5 h-5"></i>
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Pengeluaran</span>
+            <div class="bg-rose-50 text-rose-600 p-2 rounded-xl group-hover:bg-rose-100/80 transition-colors">
+              <i data-lucide="trending-down" class="w-4 h-4"></i>
             </div>
           </div>
-          <div class="mt-5 space-y-3">
-            <h3 id="stat-pengeluaran" class="font-title text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Rp 0</h3>
+          <div class="mt-3 space-y-2">
+            <h3 id="stat-pengeluaran" class="font-title text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">Rp 0</h3>
             <div class="space-y-1">
-              <div class="flex justify-between text-[10px] text-slate-400 font-bold uppercase">
+              <div class="flex justify-between text-[9px] text-slate-400 font-bold uppercase">
                 <span>Beban Rasio Anggaran</span>
                 <span id="kpi-pengeluaran-percent" class="text-rose-500 font-extrabold">0%</span>
               </div>
-              <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+              <div class="w-full bg-slate-100 h-1 rounded-full overflow-hidden">
                 <div class="bg-rose-500 h-full rounded-full transition-all duration-500" id="kpi-pengeluaran-bar" style="width: 0%"></div>
               </div>
             </div>
-            <div class="text-[11px] font-bold text-rose-600 flex items-center gap-1">
-              <i data-lucide="arrow-down-left" class="w-3.5 h-3.5"></i> Kas Operasional Keluar
+            <div class="text-[10px] font-bold text-rose-600 flex items-center gap-1">
+              <i data-lucide="arrow-down-left" class="w-3 h-3"></i> Kas Operasional Keluar
             </div>
           </div>
         </div>
 
         <!-- Saldo Bersih Card -->
-        <div class="glass-card p-6 sm:p-7 rounded-3xl border border-slate-100/90 shadow-sm hover:shadow-md transition duration-300 group relative overflow-hidden">
-          <div class="absolute top-0 left-0 w-2 h-full bg-brand-600"></div>
+        <div class="glass-card p-5 rounded-2xl border border-slate-100/90 shadow-sm hover:shadow-md transition duration-300 group relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-1.5 h-full bg-brand-600"></div>
           <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Saldo Kas Bersih</span>
-            <div class="bg-brand-50 text-brand-600 p-2.5 rounded-2xl group-hover:bg-brand-100/80 transition-colors">
-              <i data-lucide="wallet" class="w-5 h-5"></i>
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Saldo Kas Bersih</span>
+            <div class="bg-brand-50 text-brand-600 p-2 rounded-xl group-hover:bg-brand-100/80 transition-colors">
+              <i data-lucide="wallet" class="w-4 h-4"></i>
             </div>
           </div>
-          <div class="mt-5 space-y-3">
-            <h3 id="stat-saldo" class="font-title text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Rp 0</h3>
+          <div class="mt-3 space-y-2">
+            <h3 id="stat-saldo" class="font-title text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">Rp 0</h3>
             <div class="space-y-1">
-              <div class="flex justify-between text-[10px] text-slate-400 font-bold uppercase">
+              <div class="flex justify-between text-[9px] text-slate-400 font-bold uppercase">
                 <span>Margin Sisa Kas Bersih</span>
                 <span id="kpi-saldo-percent" class="text-brand-600 font-extrabold">0%</span>
               </div>
-              <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+              <div class="w-full bg-slate-100 h-1 rounded-full overflow-hidden">
                 <div class="bg-brand-600 h-full rounded-full transition-all duration-500" id="kpi-saldo-bar" style="width: 0%"></div>
               </div>
             </div>
-            <div id="stat-saldo-badge" class="text-[11px] font-bold text-slate-500 flex items-center gap-1">
-              <i data-lucide="info" class="w-3.5 h-3.5"></i> Memvalidasi Arus Ledger...
+            <div id="stat-saldo-badge" class="text-[10px] font-bold text-slate-500 flex items-center gap-1">
+              <i data-lucide="info" class="w-3 h-3"></i> Memvalidasi Arus Ledger...
             </div>
           </div>
         </div>
@@ -351,36 +341,36 @@
       </div>
 
       <!-- KONTEN DASHBOARD UTAMA -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         
         <!-- KIRI: Grafik Kas & Jurnal Cepat (2 Kolom) -->
-        <div class="lg:col-span-2 space-y-8">
+        <div class="lg:col-span-2 space-y-6">
           
           <!-- Bar Chart Kas Berdasarkan Kategori & Rentang Terpilih (Sesuai Instruksi) -->
-          <div class="glass-card p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-sm space-y-6">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="glass-card p-4 sm:p-6 rounded-2xl border border-slate-100 shadow-sm space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
-                <h2 class="font-title text-lg font-bold text-slate-900">Distribusi Kas Per Kategori</h2>
-                <p class="text-xs text-slate-400 font-semibold">Perbandingan nominal total pengeluaran dan pemasukan berdasarkan kategori dalam rentang waktu terfilter</p>
+                <h2 class="font-title text-base font-bold text-slate-900">Distribusi Kas Per Kategori</h2>
+                <p class="text-[11px] text-slate-400 font-semibold">Perbandingan nominal total pengeluaran dan pemasukan berdasarkan kategori dalam rentang waktu terfilter</p>
               </div>
             </div>
 
             <!-- Panel Filter Terintegrasi -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-50/70 p-4 rounded-2xl border border-slate-100/80">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-slate-50/70 p-3 rounded-xl border border-slate-100/80">
               <div>
-                <label class="block text-[10px] text-slate-400 font-bold mb-1 uppercase tracking-wider">Dari Tanggal</label>
+                <label class="block text-[9px] text-slate-400 font-bold mb-1 uppercase tracking-wider">Dari Tanggal</label>
                 <input type="date" id="filter-start-date" onchange="applyChartFilters()" 
-                       class="w-full px-3 py-2 bg-white border border-slate-200/80 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500/20 text-slate-700">
+                       class="w-full px-2.5 py-1.5 bg-white border border-slate-200/80 rounded-lg text-[11px] font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500/20 text-slate-700">
               </div>
               <div>
-                <label class="block text-[10px] text-slate-400 font-bold mb-1 uppercase tracking-wider">Sampai Tanggal</label>
+                <label class="block text-[9px] text-slate-400 font-bold mb-1 uppercase tracking-wider">Sampai Tanggal</label>
                 <input type="date" id="filter-end-date" onchange="applyChartFilters()" 
-                       class="w-full px-3 py-2 bg-white border border-slate-200/80 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500/20 text-slate-700">
+                       class="w-full px-2.5 py-1.5 bg-white border border-slate-200/80 rounded-lg text-[11px] font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500/20 text-slate-700">
               </div>
               <div>
-                <label class="block text-[10px] text-slate-400 font-bold mb-1 uppercase tracking-wider">Filter Kategori</label>
+                <label class="block text-[9px] text-slate-400 font-bold mb-1 uppercase tracking-wider">Filter Kategori</label>
                 <select id="filter-category" onchange="applyChartFilters()" 
-                        class="w-full px-2 py-2 bg-white border border-slate-200/80 rounded-xl text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500/20">
+                        class="w-full px-2 py-1.5 bg-white border border-slate-200/80 rounded-lg text-[11px] font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500/20">
                   <option value="all" selected>Semua Kategori</option>
                   <!-- Diisi dinamis oleh JS -->
                 </select>
@@ -388,17 +378,17 @@
             </div>
 
             <!-- Kontainer Diagram Batang (Chart Berdasarkan Kategori) -->
-            <div class="h-80 relative">
+            <div class="h-64 relative">
               <canvas id="dashboardChart"></canvas>
             </div>
           </div>
 
           <!-- Aktivitas Transaksi Terbaru (Potongan Jurnal) -->
-          <div class="glass-card p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-sm space-y-6">
+          <div class="glass-card p-4 sm:p-6 rounded-2xl border border-slate-100 shadow-sm space-y-4">
             <div class="flex items-center justify-between">
               <div>
-                <h2 class="font-title text-lg font-bold text-slate-900">Aktivitas Ledger Terbaru</h2>
-                <p class="text-xs text-slate-400 font-semibold">Tinjauan cepat 3 transaksi paling mutakhir</p>
+                <h2 class="font-title text-base font-bold text-slate-900">Aktivitas Ledger Terbaru</h2>
+                <p class="text-[11px] text-slate-400 font-semibold">Tinjauan cepat 3 transaksi paling mutakhir</p>
               </div>
               <button onclick="switchTab('ledger')" class="text-xs font-bold text-brand-600 hover:underline">Lihat Semua</button>
             </div>
@@ -406,14 +396,14 @@
             <div class="overflow-x-auto">
               <table class="w-full text-left">
                 <thead>
-                  <tr class="text-slate-400 text-[10px] font-bold uppercase tracking-wider border-b border-slate-100 pb-3">
-                    <th class="pb-3">Tanggal</th>
-                    <th class="pb-3">Deskripsi</th>
-                    <th class="pb-3">Kategori</th>
-                    <th class="pb-3 text-right">Nominal</th>
+                  <tr class="text-slate-400 text-[9px] font-bold uppercase tracking-wider border-b border-slate-100 pb-2.5">
+                    <th class="pb-2">Tanggal</th>
+                    <th class="pb-2">Deskripsi</th>
+                    <th class="pb-2">Kategori</th>
+                    <th class="pb-2 text-right">Nominal</th>
                   </tr>
                 </thead>
-                <tbody id="mini-table-body" class="divide-y divide-slate-100 text-xs font-semibold text-slate-600">
+                <tbody id="mini-table-body" class="divide-y divide-slate-100 text-[11px] font-semibold text-slate-600">
                   <!-- Data mini akan dirender JS -->
                 </tbody>
               </table>
@@ -422,28 +412,28 @@
 
         </div>
 
-        <!-- KANAN: Form Input Transaksi Sederhana, Pie Chart & Quick Analytics (Sesuai Layout Kanan Monitor 82154.jpg) -->
-        <div class="space-y-8">
+        <!-- KANAN: Form Input Transaksi Sederhana, Pie Chart (Sesuai Pembaruan Layout) -->
+        <div class="space-y-6">
           
           <!-- Formulir Transaksi Terpadu & Sederhana -->
-          <div class="glass-card p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-sm space-y-5">
+          <div class="glass-card p-4 sm:p-6 rounded-2xl border border-slate-100 shadow-sm space-y-4">
             <div>
-              <h2 class="font-title text-md font-bold text-slate-900">Catat Kas Masuk/Keluar</h2>
-              <p class="text-[11px] text-slate-400 font-medium">Masukan instan tanpa alur bertahap</p>
+              <h2 class="font-title text-sm font-bold text-slate-900">Catat Kas Masuk/Keluar</h2>
+              <p class="text-[10px] text-slate-400 font-medium">Masukan instan tanpa alur bertahap</p>
             </div>
 
-            <form id="ledger-form" class="space-y-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+            <form id="ledger-form" class="space-y-3 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
               
               <!-- Tanggal & Jenis Kas -->
-              <div class="grid grid-cols-2 gap-3">
+              <div class="grid grid-cols-2 gap-2.5">
                 <div>
-                  <label class="block mb-1.5 text-slate-400 text-[10px]">Tanggal</label>
+                  <label class="block mb-1.5 text-slate-400 text-[9px]">Tanggal</label>
                   <input type="date" id="form-date" required
-                         class="w-full px-3 py-2.5 text-xs font-normal text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
+                         class="w-full px-2 py-2 text-[11px] font-normal text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
                 </div>
                 <div>
-                  <label class="block mb-1.5 text-slate-400 text-[10px]">Jenis Kas</label>
-                  <select id="form-type" onchange="updateFormCategoryDropdown()" class="w-full px-2 py-2.5 text-xs font-bold text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
+                  <label class="block mb-1.5 text-slate-400 text-[9px]">Jenis Kas</label>
+                  <select id="form-type" onchange="updateFormCategoryDropdown()" class="w-full px-1 py-2 text-[11px] font-bold text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
                     <option value="Pemasukan" selected>Pemasukan</option>
                     <option value="Pengeluaran">Pengeluaran</option>
                   </select>
@@ -452,68 +442,47 @@
 
               <!-- Deskripsi -->
               <div>
-                <label class="block mb-1.5 text-slate-400 text-[10px]">Keterangan / Deskripsi</label>
+                <label class="block mb-1.5 text-slate-400 text-[9px]">Keterangan / Deskripsi</label>
                 <input type="text" id="form-desc" placeholder="Keterangan singkat..." required
-                       class="w-full px-3 py-2.5 text-xs font-normal text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
+                       class="w-full px-2.5 py-2 text-[11px] font-normal text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
               </div>
 
               <!-- Kategori & Nominal -->
-              <div class="grid grid-cols-2 gap-3">
+              <div class="grid grid-cols-2 gap-2.5">
                 <div>
-                  <label class="block mb-1.5 text-slate-400 text-[10px]">Kategori</label>
-                  <select id="form-category" class="w-full px-2 py-2.5 text-xs font-bold text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
+                  <label class="block mb-1.5 text-slate-400 text-[9px]">Kategori</label>
+                  <select id="form-category" class="w-full px-1.5 py-2 text-[11px] font-bold text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
                     <!-- Terisi otomatis via JS -->
                   </select>
                 </div>
                 <div>
-                  <label class="block mb-1.5 text-slate-400 text-[10px]">Nominal (Rupiah)</label>
+                  <label class="block mb-1.5 text-slate-400 text-[9px]">Nominal (Rupiah)</label>
                   <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400 text-[10px] font-bold">
+                    <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none text-slate-400 text-[9px] font-bold">
                       Rp
                     </div>
                     <input type="number" id="form-amount" min="1" placeholder="0" required
-                           class="w-full pl-7 pr-2 py-2.5 text-xs font-semibold text-slate-900 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
+                           class="w-full pl-6 pr-1.5 py-2 text-[11px] font-semibold text-slate-900 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
                   </div>
                 </div>
               </div>
 
               <!-- Tombol Simpan Instan -->
-              <button type="submit" id="btn-form-submit" class="w-full py-3 px-4 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl transition duration-300 flex items-center justify-center space-x-2 shadow-lg shadow-brand-500/20 mt-2">
-                <i data-lucide="plus-circle" class="w-4 h-4"></i>
+              <button type="submit" id="btn-form-submit" class="w-full py-2.5 px-3 bg-brand-600 hover:bg-brand-700 text-white font-bold text-[11px] rounded-xl transition duration-300 flex items-center justify-center space-x-1.5 shadow-md shadow-brand-500/10 mt-1">
+                <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
                 <span>Simpan Transaksi</span>
               </button>
             </form>
           </div>
 
           <!-- DIAGRAM LINGKARAN (Pie/Doughnut Chart Jenis Kas) -->
-          <div class="glass-card p-6 rounded-3xl border border-slate-100 shadow-sm space-y-4">
+          <div class="glass-card p-5 rounded-2xl border border-slate-100 shadow-sm space-y-3">
             <div>
-              <h3 class="font-title text-sm font-bold text-slate-900">Rasio Jenis Transaksi</h3>
-              <p class="text-[10px] text-slate-400 font-medium">Bandingan volume Pemasukan vs Pengeluaran</p>
+              <h3 class="font-title text-xs font-bold text-slate-900">Rasio Jenis Transaksi</h3>
+              <p class="text-[9px] text-slate-400 font-medium">Bandingan volume Pemasukan vs Pengeluaran</p>
             </div>
-            <div class="h-44 w-full relative">
+            <div class="h-36 w-full relative">
               <canvas id="pieChartJenis"></canvas>
-            </div>
-          </div>
-
-          <!-- Quick Analytics Mini Chart (Persis seperti widget Quick Analytics 82154.jpg) -->
-          <div class="glass-card p-6 rounded-3xl border border-slate-100 shadow-sm space-y-4">
-            <div class="flex items-center justify-between">
-              <h3 class="font-title text-sm font-bold text-slate-900">Quick Analytics</h3>
-              <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">82% Win-Rate</span>
-            </div>
-            <div class="h-16 w-full">
-              <canvas id="miniLineChart"></canvas>
-            </div>
-            <div class="grid grid-cols-2 gap-2 text-center pt-2 border-t border-slate-100 text-xs font-semibold">
-              <div>
-                <span class="block text-[10px] text-slate-400 font-bold uppercase">Rasio Profit</span>
-                <span class="text-xs font-extrabold text-brand-600">32.4%</span>
-              </div>
-              <div>
-                <span class="block text-[10px] text-slate-400 font-bold uppercase">Estimasi Pajak</span>
-                <span class="text-xs font-extrabold text-slate-500">Rp 12.5 Jt</span>
-              </div>
             </div>
           </div>
 
@@ -524,60 +493,60 @@
     </section>
 
     <!-- SUB-VIEW: CATEGORIES MANAGEMENT -->
-    <section id="view-categories" class="tab-view space-y-8 hidden animate-fade-in">
+    <section id="view-categories" class="tab-view space-y-6 hidden animate-fade-in">
       
       <!-- Kategori Header -->
       <div>
-        <h2 class="font-title text-xl font-extrabold text-slate-900">Manajemen Kategori Ledger</h2>
+        <h2 class="font-title text-lg font-extrabold text-slate-900">Manajemen Kategori Ledger</h2>
         <p class="text-xs text-slate-400 font-semibold mt-1">Kelola kategori masukan dan pengeluaran Anda agar terstruktur rapi.</p>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         
         <!-- Form Kategori Baru (1 Kolom) -->
-        <div class="glass-card p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-sm space-y-5">
-          <h3 class="font-title text-base font-bold text-slate-900">Kategori Baru</h3>
+        <div class="glass-card p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
+          <h3 class="font-title text-sm font-bold text-slate-900">Kategori Baru</h3>
           
-          <form id="category-form" class="space-y-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+          <form id="category-form" class="space-y-3 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
             <div>
-              <label class="block text-[10px] text-slate-400 mb-2">Tipe Transaksi</label>
-              <select id="cat-input-type" class="w-full px-3 py-3 text-xs font-bold text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 bg-white">
+              <label class="block text-[9px] text-slate-400 mb-1.5">Tipe Transaksi</label>
+              <select id="cat-input-type" class="w-full px-2.5 py-2.5 text-[11px] font-bold text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 bg-white">
                 <option value="Pemasukan">Pemasukan</option>
                 <option value="Pengeluaran">Pengeluaran</option>
               </select>
             </div>
             
             <div>
-              <label class="block text-[10px] text-slate-400 mb-2">Nama Kategori</label>
+              <label class="block text-[9px] text-slate-400 mb-1.5">Nama Kategori</label>
               <input type="text" id="cat-input-name" placeholder="Contoh: Logistik" required
-                     class="w-full px-4 py-3 text-xs font-semibold text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 bg-white">
+                     class="w-full px-3.5 py-2.5 text-[11px] font-semibold text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 bg-white">
             </div>
 
-            <button type="submit" class="w-full py-3 px-4 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl transition shadow-md shadow-brand-500/10 flex items-center justify-center gap-1">
-              <i data-lucide="plus" class="w-4 h-4"></i> Tambahkan Kategori
+            <button type="submit" class="w-full py-2.5 px-3 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl transition shadow-md shadow-brand-500/10 flex items-center justify-center gap-1">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i> Tambahkan Kategori
             </button>
           </form>
         </div>
 
         <!-- Daftar Kategori yang Ada (2 Kolom) -->
-        <div class="glass-card p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-sm lg:col-span-2 space-y-8">
+        <div class="glass-card p-5 rounded-2xl border border-slate-100 shadow-sm lg:col-span-2 space-y-6">
           
           <!-- Kelompok Kategori Pemasukan -->
-          <div class="space-y-4">
-            <h3 class="font-title text-sm font-extrabold text-emerald-600 flex items-center gap-1.5">
-              <span class="h-2 w-2 rounded-full bg-emerald-500"></span> Kategori Pemasukan
+          <div class="space-y-3">
+            <h3 class="font-title text-xs font-extrabold text-emerald-600 flex items-center gap-1.5">
+              <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> Kategori Pemasukan
             </h3>
-            <div id="categories-grid-pemasukan" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div id="categories-grid-pemasukan" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <!-- Render otomatis via JS -->
             </div>
           </div>
 
           <!-- Kelompok Kategori Pengeluaran -->
-          <div class="space-y-4 pt-4 border-t border-slate-100">
-            <h3 class="font-title text-sm font-extrabold text-rose-500 flex items-center gap-1.5">
-              <span class="h-2 w-2 rounded-full bg-rose-500"></span> Kategori Pengeluaran
+          <div class="space-y-3 pt-3 border-t border-slate-100">
+            <h3 class="font-title text-xs font-extrabold text-rose-500 flex items-center gap-1.5">
+              <span class="h-1.5 w-1.5 rounded-full bg-rose-500"></span> Kategori Pengeluaran
             </h3>
-            <div id="categories-grid-pengeluaran" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div id="categories-grid-pengeluaran" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <!-- Render otomatis via JS -->
             </div>
           </div>
@@ -588,53 +557,53 @@
 
     </section>
 
-    <!-- SUB-VIEW: DETAIL LEDGER TABEL (Gaya Jurnal Transaksi Dilengkapi Fitur Edit & Hapus) -->
-    <section id="view-ledger" class="tab-view space-y-8 hidden animate-fade-in">
+    <!-- SUB-VIEW: DETAIL LEDGER TABEL -->
+    <section id="view-ledger" class="tab-view space-y-6 hidden animate-fade-in">
       
       <!-- Jurnal Header -->
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h2 class="font-title text-xl font-extrabold text-slate-900">Jurnal Transaksi Korporat</h2>
+          <h2 class="font-title text-lg font-extrabold text-slate-900">Jurnal Transaksi Korporat</h2>
           <p class="text-xs text-slate-400 font-semibold mt-1">Daftar menyeluruh transaksi ledger yang terekam pada server. Gunakan tombol aksi untuk mengedit atau menghapus data.</p>
         </div>
 
         <!-- Fitur Pencarian Lengkap -->
         <div class="flex items-center space-x-2">
           <div class="relative">
-            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+            <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
             <input type="text" id="ledger-search-input" placeholder="Cari transaksi ledger..." 
-                   class="pl-9 pr-4 py-2 bg-white border border-slate-200/80 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500/20">
+                   class="pl-8 pr-3 py-1.5 bg-white border border-slate-200/80 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500/20">
           </div>
-          <button onclick="refreshDashboardData()" class="bg-white border border-slate-200/80 p-2 rounded-xl text-slate-500 hover:text-brand-600 transition" title="Refresh Jurnal">
-            <i data-lucide="rotate-cw" class="w-4.5 h-4.5"></i>
+          <button onclick="refreshDashboardData()" class="bg-white border border-slate-200/80 p-1.5 rounded-xl text-slate-500 hover:text-brand-600 transition" title="Refresh Jurnal">
+            <i data-lucide="rotate-cw" class="w-4 h-4"></i>
           </button>
         </div>
       </div>
 
       <!-- Tabel Jurnal Menyeluruh -->
-      <div class="glass-card rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+      <div class="glass-card rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse">
             <thead>
-              <tr class="bg-slate-50/50 text-slate-400 text-[10px] font-bold uppercase tracking-wider border-b border-slate-100">
-                <th class="py-4 px-6 sm:px-8">Tanggal</th>
-                <th class="py-4 px-6">Deskripsi Transaksi</th>
-                <th class="py-4 px-6">Kategori</th>
-                <th class="py-4 px-6">Jenis Kas</th>
-                <th class="py-4 px-6 text-right">Jumlah (IDR)</th>
-                <th class="py-4 px-6 sm:px-8 text-center">Aksi</th>
+              <tr class="bg-slate-50/50 text-slate-400 text-[9px] font-bold uppercase tracking-wider border-b border-slate-100">
+                <th class="py-3 px-5 sm:px-6">Tanggal</th>
+                <th class="py-3 px-5">Deskripsi Transaksi</th>
+                <th class="py-3 px-5">Kategori</th>
+                <th class="py-3 px-5">Jenis Kas</th>
+                <th class="py-3 px-5 text-right">Jumlah (IDR)</th>
+                <th class="py-3 px-5 sm:px-6 text-center">Aksi</th>
               </tr>
             </thead>
-            <tbody id="ledger-table-rows" class="divide-y divide-slate-100 text-xs font-semibold text-slate-600">
+            <tbody id="ledger-table-rows" class="divide-y divide-slate-100 text-[11px] font-semibold text-slate-600">
               <!-- Render dinamis oleh JS -->
             </tbody>
           </table>
         </div>
         <!-- Kaki Tabel -->
-        <div class="px-6 py-4 bg-slate-50/40 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400 font-bold">
+        <div class="px-5 py-3 bg-slate-50/40 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400 font-bold">
           <span id="ledger-counter">Menampilkan 0 Transaksi</span>
           <span class="text-brand-500 flex items-center gap-1">
-            <i data-lucide="shield-check" class="w-4 h-4"></i> Cloud Sync System
+            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Cloud Sync System
           </span>
         </div>
       </div>
@@ -645,31 +614,31 @@
 
   <!-- MODAL: EDIT TRANSAKSI -->
   <div id="modal-edit-transaction" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100 space-y-6">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border border-slate-100 space-y-4">
       <div class="flex justify-between items-center">
-        <h3 class="font-title text-base font-extrabold text-slate-900 flex items-center gap-2.5">
-          <div class="bg-brand-50 text-brand-600 p-2 rounded-xl">
-            <i data-lucide="edit-3" class="w-5 h-5"></i>
+        <h3 class="font-title text-sm font-extrabold text-slate-900 flex items-center gap-2">
+          <div class="bg-brand-50 text-brand-600 p-1.5 rounded-lg">
+            <i data-lucide="edit-3" class="w-4 h-4"></i>
           </div>
           Edit Transaksi Ledger
         </h3>
-        <button id="btn-close-edit-modal" class="text-slate-400 hover:text-slate-600 bg-slate-50 p-1.5 rounded-xl transition">
-          <i data-lucide="x" class="w-5 h-5"></i>
+        <button id="btn-close-edit-modal" class="text-slate-400 hover:text-slate-600 bg-slate-50 p-1.5 rounded-lg transition">
+          <i data-lucide="x" class="w-4.5 h-4.5"></i>
         </button>
       </div>
 
-      <form id="edit-ledger-form" class="space-y-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+      <form id="edit-ledger-form" class="space-y-3 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
         <input type="hidden" id="edit-form-id">
         
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-2 gap-2.5">
           <div>
-            <label class="block mb-1.5 text-slate-400 text-[10px]">Tanggal</label>
+            <label class="block mb-1 text-slate-400 text-[9px]">Tanggal</label>
             <input type="date" id="edit-form-date" required
-                   class="w-full px-3 py-2.5 text-xs font-normal text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
+                   class="w-full px-2 py-2 text-[11px] font-normal text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
           </div>
           <div>
-            <label class="block mb-1.5 text-slate-400 text-[10px]">Jenis Kas</label>
-            <select id="edit-form-type" onchange="updateEditFormCategoryDropdown()" class="w-full px-2 py-2.5 text-xs font-bold text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
+            <label class="block mb-1 text-slate-400 text-[9px]">Jenis Kas</label>
+            <select id="edit-form-type" onchange="updateEditFormCategoryDropdown()" class="w-full px-1.5 py-2 text-[11px] font-bold text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
               <option value="Pemasukan">Pemasukan</option>
               <option value="Pengeluaran">Pengeluaran</option>
             </select>
@@ -677,32 +646,32 @@
         </div>
 
         <div>
-          <label class="block mb-1.5 text-slate-400 text-[10px]">Keterangan / Deskripsi</label>
+          <label class="block mb-1 text-slate-400 text-[9px]">Keterangan / Deskripsi</label>
           <input type="text" id="edit-form-desc" required
-                 class="w-full px-3 py-2.5 text-xs font-normal text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
+                 class="w-full px-2.5 py-2 text-[11px] font-normal text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
         </div>
 
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-2 gap-2.5">
           <div>
-            <label class="block mb-1.5 text-slate-400 text-[10px]">Kategori</label>
-            <select id="edit-form-category" class="w-full px-2 py-2.5 text-xs font-bold text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
+            <label class="block mb-1 text-slate-400 text-[9px]">Kategori</label>
+            <select id="edit-form-category" class="w-full px-1.5 py-2 text-[11px] font-bold text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
               <!-- Terisi otomatis via JS -->
             </select>
           </div>
           <div>
-            <label class="block mb-1.5 text-slate-400 text-[10px]">Nominal (Rupiah)</label>
+            <label class="block mb-1 text-slate-400 text-[9px]">Nominal (Rupiah)</label>
             <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400 text-[10px] font-bold">
+              <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none text-slate-400 text-[9px] font-bold">
                 Rp
               </div>
               <input type="number" id="edit-form-amount" min="1" required
-                     class="w-full pl-7 pr-2 py-2.5 text-xs font-semibold text-slate-900 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
+                     class="w-full pl-6 pr-1.5 py-2 text-[11px] font-semibold text-slate-900 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
             </div>
           </div>
         </div>
 
-        <button type="submit" id="btn-edit-submit" class="w-full py-3 px-4 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl transition duration-300 flex items-center justify-center space-x-2 shadow-lg shadow-brand-500/20 mt-2">
-          <i data-lucide="check" class="w-4 h-4"></i>
+        <button type="submit" id="btn-edit-submit" class="w-full py-2.5 px-3 bg-brand-600 hover:bg-brand-700 text-white font-bold text-[11px] rounded-xl transition duration-300 flex items-center justify-center space-x-1.5 shadow-md shadow-brand-500/10 mt-1">
+          <i data-lucide="check" class="w-3.5 h-3.5"></i>
           <span>Simpan Perubahan</span>
         </button>
       </form>
@@ -711,91 +680,69 @@
 
   <!-- MODAL: EDIT PROFIL (Berfungsi merubah Nama Pengguna & Jabatan) -->
   <div id="modal-edit-profile" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-100 space-y-6">
+    <div class="bg-white rounded-3xl max-w-md w-full p-5 sm:p-6 shadow-2xl border border-slate-100 space-y-4">
       <div class="flex justify-between items-center">
-        <h3 class="font-title text-base font-extrabold text-slate-900 flex items-center gap-2.5">
-          <div class="bg-brand-50 text-brand-600 p-2 rounded-xl">
-            <i data-lucide="user-cog" class="w-5 h-5"></i>
+        <h3 class="font-title text-sm font-extrabold text-slate-900 flex items-center gap-2">
+          <div class="bg-brand-50 text-brand-600 p-1.5 rounded-lg">
+            <i data-lucide="user-cog" class="w-4 h-4"></i>
           </div>
           Edit Profil Pengguna
         </h3>
-        <button id="btn-close-profile-modal" class="text-slate-400 hover:text-slate-600 bg-slate-50 p-1.5 rounded-xl transition">
-          <i data-lucide="x" class="w-5 h-5"></i>
+        <button id="btn-close-profile-modal" class="text-slate-400 hover:text-slate-600 bg-slate-50 p-1.5 rounded-lg transition">
+          <i data-lucide="x" class="w-4.5 h-4.5"></i>
         </button>
       </div>
 
-      <form id="profile-edit-form" class="space-y-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+      <form id="profile-edit-form" class="space-y-3 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
         <div>
-          <label class="block mb-1.5 text-slate-400 text-[10px]">Nama Pengguna</label>
+          <label class="block mb-1 text-slate-400 text-[9px]">Nama Pengguna</label>
           <input type="text" id="profile-input-name" required
-                 class="w-full px-3 py-2.5 text-xs font-normal text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
+                 class="w-full px-2.5 py-2 text-[11px] font-normal text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
         </div>
         <div>
-          <label class="block mb-1.5 text-slate-400 text-[10px]">Peran / Jabatan</label>
+          <label class="block mb-1 text-slate-400 text-[9px]">Peran / Jabatan</label>
           <input type="text" id="profile-input-role" required
-                 class="w-full px-3 py-2.5 text-xs font-normal text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
+                 class="w-full px-2.5 py-2 text-[11px] font-normal text-slate-800 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-all">
         </div>
 
-        <button type="submit" class="w-full py-3 px-4 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl transition duration-300 flex items-center justify-center space-x-2 shadow-lg shadow-brand-500/20 mt-2">
-          <i data-lucide="save" class="w-4 h-4"></i>
+        <button type="submit" class="w-full py-2.5 px-3 bg-brand-600 hover:bg-brand-700 text-white font-bold text-[11px] rounded-xl transition duration-300 flex items-center justify-center space-x-1.5 shadow-md shadow-brand-500/10 mt-1">
+          <i data-lucide="save" class="w-3.5 h-3.5"></i>
           <span>Simpan Profil</span>
         </button>
       </form>
     </div>
   </div>
 
-  <!-- MODAL: KONFIGURASI BASIS DATA APPS SCRIPT -->
+  <!-- CUSTOM CONFIRM MODAL (Sesuai Aturan Bebas Alert/Confirm Dialog) -->
+  <div id="modal-custom-confirm" class="hidden fixed inset-0 z-[100] bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-5 shadow-2xl border border-slate-100 space-y-4">
+      <div class="flex items-center gap-2 text-rose-600 font-bold">
+        <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+        <h3 class="font-title text-sm font-extrabold text-slate-900">Konfirmasi Hapus</h3>
+      </div>
+      <p id="custom-confirm-message" class="text-[11px] text-slate-500 font-semibold leading-relaxed">Apakah Anda yakin ingin menghapus data ini secara permanen?</p>
+      <div class="flex gap-2 justify-end pt-2">
+        <button id="btn-confirm-cancel" class="px-3.5 py-2 bg-slate-50 hover:bg-slate-100 text-slate-600 text-[10px] font-bold rounded-xl border border-slate-200 transition">Batal</button>
+        <button id="btn-confirm-proceed" class="px-3.5 py-2 bg-rose-600 hover:bg-rose-700 text-white text-[10px] font-bold rounded-xl transition">Hapus</button>
+      </div>
+    </div>
+  </div>
+
   <div id="modal-api-config" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100 space-y-6">
-      
-      <!-- Judul Modal -->
+    <div class="bg-white rounded-3xl max-w-sm w-full p-5 shadow-2xl border border-slate-100 space-y-4">
       <div class="flex justify-between items-center">
-        <h3 class="font-title text-base font-extrabold text-slate-900 flex items-center gap-2.5">
-          <div class="bg-brand-50 text-brand-600 p-2 rounded-xl">
-            <i data-lucide="database" class="w-5 h-5"></i>
-          </div>
-          Konfigurasi Server Cloud
-        </h3>
-        <button id="btn-close-api-modal" class="text-slate-400 hover:text-slate-600 bg-slate-50 p-1.5 rounded-xl transition">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
+        <h3 class="font-title text-sm font-extrabold text-slate-900">Konfigurasi API</h3>
+        <button id="btn-close-api-modal" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-4 h-4"></i></button>
       </div>
-
-      <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-        <h4 class="text-[10px] font-bold text-slate-600 uppercase mb-1">Panduan Koneksi Apps Script</h4>
-        <p class="text-[11px] text-slate-400 leading-relaxed font-medium">
-          Dashboard premium ini menggunakan Google Sheets gratis sebagai database cloud global. Hubungkan dengan memasukkan URL deployment Web App di bawah ini.
-        </p>
-      </div>
-
-      <!-- Input Form URL -->
-      <div class="space-y-4">
-        <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Web App URL</label>
-          <input type="url" id="api-url-input" placeholder="https://script.google.com/macros/s/.../exec"
-                 class="w-full px-4 py-3 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:bg-white transition-all text-slate-700 font-mono">
-        </div>
-
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
-          <button id="btn-revert-demo" class="text-xs font-bold text-red-500 hover:text-red-700 hover:underline text-left">
-            Gunakan Data Demo Kembali
-          </button>
-          
-          <div class="flex gap-2 self-stretch sm:self-auto">
-            <button id="btn-test-api-connection" class="flex-1 sm:flex-none px-4 py-2.5 bg-slate-50 hover:bg-slate-100 text-slate-600 text-xs font-bold rounded-xl border border-slate-200 transition">
-              Tes API
-            </button>
-            <button id="btn-save-api-connection" class="flex-grow sm:flex-none px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl transition shadow-md shadow-brand-500/10">
-              Simpan
-            </button>
-          </div>
-        </div>
-      </div>
-
+      <input type="text" id="api-url-input" placeholder="Paste URL Apps Script..." class="w-full px-3 py-2 border rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500">
+      <button id="btn-save-api-connection" class="w-full bg-brand-600 text-white p-2 rounded-xl text-xs font-bold hover:bg-brand-700 transition">Simpan Koneksi</button>
+      <button id="btn-test-api-connection" class="w-full bg-slate-100 text-slate-700 p-2 rounded-xl text-xs font-bold hover:bg-slate-200 transition">Tes Koneksi</button>
+      <button id="btn-revert-demo" class="w-full text-rose-500 text-[10px] font-bold hover:text-rose-600">Kembali ke Mode Demo</button>
     </div>
   </div>
 
   <!-- SCRIPT LOGIC JAVASCRIPT -->
+  <!-- -->
   <script>
     // DATA DEMO AWAL
     const initialDemoTransactions = [
@@ -814,14 +761,16 @@
     let items = [...initialDemoTransactions];
     let appScriptApiUrl = localStorage.getItem("lexora_appscript_url") || "";
 
-    // Data State Profil Dinamis (Ava Mitchell default)
-    let userName = localStorage.getItem("lexora_user_name") || "Ava Mitchell";
-    let userRole = localStorage.getItem("lexora_user_role") || "Family Law Associate";
+    // Data State Profil Dinamis (Default Afifah Alfarisi / Accountant Manager sesuai request gambar terbaru)
+    let userName = localStorage.getItem("lexora_user_name") || "Afifah Alfarisi";
+    let userRole = localStorage.getItem("lexora_user_role") || "Accountant Manager";
 
     // Global Chart Instances
     let mainDashboardChart = null;
     let mainPieChart = null;
-    let miniLineChartInstance = null;
+
+    // Custom Callback Confirmation Dialog
+    let confirmCallback = null;
 
     // INISIALISASI HALAMAN UTAMA
     document.addEventListener("DOMContentLoaded", () => {
@@ -838,11 +787,12 @@
       refreshDashboardData();
     });
 
-    // SET INTERAKSI EVENT LISTENER
+    //    // SET INTERAKSI EVENT LISTENER
     function initUserInteractions() {
       // Set tanggal default hari ini
       const todayDate = new Date().toISOString().split('T')[0];
-      document.getElementById('form-date').value = todayDate;
+      const formDateEl = document.getElementById('form-date');
+      if (formDateEl) formDateEl.value = todayDate;
 
       // Event modal setting API
       const apiModal = document.getElementById("modal-api-config");
@@ -851,88 +801,138 @@
       const closeModalBtn = document.getElementById("btn-close-api-modal");
 
       const handleOpenModal = () => {
-        document.getElementById("api-url-input").value = appScriptApiUrl;
-        apiModal.classList.remove("hidden");
+        const input = document.getElementById("api-url-input");
+        if (input) input.value = appScriptApiUrl;
+        if (apiModal) apiModal.classList.remove("hidden");
       };
 
-      openModalBtn.addEventListener("click", handleOpenModal);
+      if (openModalBtn) openModalBtn.addEventListener("click", handleOpenModal);
       if (openModalMobileBtn) openModalMobileBtn.addEventListener("click", handleOpenModal);
-      closeModalBtn.addEventListener("click", () => apiModal.classList.add("hidden"));
+      if (closeModalBtn) closeModalBtn.addEventListener("click", () => { if (apiModal) apiModal.classList.add("hidden") });
 
       // Simpan URL API
-      document.getElementById("btn-save-api-connection").addEventListener("click", () => {
-        const urlInput = document.getElementById("api-url-input").value.trim();
-        appScriptApiUrl = urlInput;
-        localStorage.setItem("lexora_appscript_url", urlInput);
-        apiModal.classList.add("hidden");
-        triggerToast("Konfigurasi API Tersimpan!");
-        updateStatusBadge();
-        refreshDashboardData();
-      });
+      const saveBtn = document.getElementById("btn-save-api-connection");
+      if (saveBtn) {
+        saveBtn.addEventListener("click", () => {
+          const urlInput = document.getElementById("api-url-input")?.value.trim();
+          appScriptApiUrl = urlInput || "";
+          localStorage.setItem("lexora_appscript_url", appScriptApiUrl);
+          if (apiModal) apiModal.classList.add("hidden");
+          triggerToast("Konfigurasi API Tersimpan!");
+          updateStatusBadge();
+          refreshDashboardData();
+        });
+      }
 
       // Kembalikan ke Mode Demo Offline
-      document.getElementById("btn-revert-demo").addEventListener("click", (e) => {
-        e.preventDefault();
-        appScriptApiUrl = "";
-        localStorage.removeItem("lexora_appscript_url");
-        document.getElementById("api-url-input").value = "";
-        apiModal.classList.add("hidden");
-        triggerToast("Kembali ke Modus Simulasi Lokal.");
-        updateStatusBadge();
-        items = [...initialDemoTransactions];
-        renderViews();
-      });
+      const revertBtn = document.getElementById("btn-revert-demo");
+      if (revertBtn) {
+        revertBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          appScriptApiUrl = "";
+          localStorage.removeItem("lexora_appscript_url");
+          const urlInput = document.getElementById("api-url-input");
+          if (urlInput) urlInput.value = "";
+          if (apiModal) apiModal.classList.add("hidden");
+          triggerToast("Kembali ke Modus Simulasi Lokal.");
+          updateStatusBadge();
+          items = [...initialDemoTransactions];
+          renderViews();
+        });
+      }
 
-      // Tes koneksi database cloud
-      document.getElementById("btn-test-api-connection").addEventListener("click", async () => {
-        const testUrl = document.getElementById("api-url-input").value.trim();
-        if (!testUrl) {
-          triggerToast("Harap isi URL Apps Script terlebih dahulu!");
-          return;
-        }
-
-        triggerToast("Menguji koneksi server...");
-        try {
-          const res = await fetch(`${testUrl}?action=getTransactions`);
-          if (res.ok) {
-            triggerToast("Sukses terhubung dengan Google Sheets!");
-          } else {
-            triggerToast("Respon API gagal. Periksa izin deploy.");
+      // Tes koneksi database cloud (DIKOREKSI AGAR BEBAS SYNTAX ERROR)
+      const testBtn = document.getElementById("btn-test-api-connection");
+      if (testBtn) {
+        testBtn.addEventListener("click", async () => {
+          const testUrl = document.getElementById("api-url-input")?.value.trim();
+          if (!testUrl) {
+            triggerToast("Harap isi URL Apps Script terlebih dahulu!");
+            return;
           }
-        } catch (error) {
-          triggerToast("Koneksi gagal. Cek CORS & pengaturan Script.");
-          console.error(error);
-        }
-      });
+
+          triggerToast("Menguji koneksi server...");
+          try {
+            const res = await fetch(`${testUrl}?action=getTransactions`);
+            if (res.ok) {
+              triggerToast("Sukses terhubung dengan Google Sheets!");
+            } else {
+              triggerToast("Respon API gagal. Periksa izin deploy.");
+            }
+          } catch (error) {
+            triggerToast("Koneksi gagal. Cek CORS & pengaturan Script.");
+            console.error(error);
+          }
+        });
+      }
 
       // Event Submit Form Ledger Baru
-      document.getElementById("ledger-form").addEventListener("submit", handleLedgerSubmit);
+      const ledgerForm = document.getElementById("ledger-form");
+      if (ledgerForm) ledgerForm.addEventListener("submit", handleLedgerSubmit);
 
       // Event Submit Kategori Baru
-      document.getElementById("category-form").addEventListener("submit", handleAddCategory);
+      const categoryForm = document.getElementById("category-form");
+      if (categoryForm) categoryForm.addEventListener("submit", handleAddCategory);
 
       // Event Search di Jurnal Ledger
-      document.getElementById("ledger-search-input").addEventListener("input", (e) => {
-        const keyword = e.target.value.toLowerCase();
-        const matched = items.filter(item => 
-          item.deskripsi.toLowerCase().includes(keyword) || 
-          item.kategori.toLowerCase().includes(keyword) ||
-          item.jenis.toLowerCase().includes(keyword)
-        );
-        populateLedgerTable(matched);
-      });
+      const searchInput = document.getElementById("ledger-search-input");
+      if (searchInput) {
+        searchInput.addEventListener("input", (e) => {
+          const keyword = e.target.value.toLowerCase();
+          const matched = items.filter(item => 
+            item.deskripsi.toLowerCase().includes(keyword) || 
+            item.kategori.toLowerCase().includes(keyword) ||
+            item.jenis.toLowerCase().includes(keyword)
+          );
+          populateLedgerTable(matched);
+        });
+      }
 
       // Event Modal Edit Transaksi
-      document.getElementById("btn-close-edit-modal").addEventListener("click", () => {
-        document.getElementById("modal-edit-transaction").classList.add("hidden");
-      });
-      document.getElementById("edit-ledger-form").addEventListener("submit", handleEditSubmit);
+      const closeEditBtn = document.getElementById("btn-close-edit-modal");
+      if (closeEditBtn) {
+        closeEditBtn.addEventListener("click", () => {
+          const editModal = document.getElementById("modal-edit-transaction");
+          if (editModal) editModal.classList.add("hidden");
+        });
+      }
+      
+      const editLedgerForm = document.getElementById("edit-ledger-form");
+      if (editLedgerForm) editLedgerForm.addEventListener("submit", handleEditSubmit);
 
       // Event Modal Edit Profil
-      document.getElementById("btn-close-profile-modal").addEventListener("click", () => {
-        document.getElementById("modal-edit-profile").classList.add("hidden");
-      });
-      document.getElementById("profile-edit-form").addEventListener("submit", handleProfileEditSubmit);
+      const closeProfileBtn = document.getElementById("btn-close-profile-modal");
+      if (closeProfileBtn) {
+        closeProfileBtn.addEventListener("click", () => {
+          const profileModal = document.getElementById("modal-edit-profile");
+          if (profileModal) profileModal.classList.add("hidden");
+        });
+      }
+      
+      const profileEditForm = document.getElementById("profile-edit-form");
+      if (profileEditForm) profileEditForm.addEventListener("submit", handleProfileEditSubmit);
+
+      // Event Custom Confirmation Modal
+      const confirmCancelBtn = document.getElementById("btn-confirm-cancel");
+      if (confirmCancelBtn) {
+        confirmCancelBtn.addEventListener("click", () => {
+          const confirmModal = document.getElementById("modal-custom-confirm");
+          if (confirmModal) confirmModal.classList.add("hidden");
+          confirmCallback = null;
+        });
+      }
+      
+      const confirmProceedBtn = document.getElementById("btn-confirm-proceed");
+      if (confirmProceedBtn) {
+        confirmProceedBtn.addEventListener("click", () => {
+          const confirmModal = document.getElementById("modal-custom-confirm");
+          if (confirmModal) confirmModal.classList.add("hidden");
+          if (confirmCallback) {
+            confirmCallback();
+            confirmCallback = null;
+          }
+        });
+      }
 
       updateStatusBadge();
     }
@@ -949,9 +949,13 @@
 
     // MODAL EDIT PROFIL ACTIONS
     function openProfileModal() {
-      document.getElementById("profile-input-name").value = userName;
-      document.getElementById("profile-input-role").value = userRole;
-      document.getElementById("modal-edit-profile").classList.remove("hidden");
+      const nameInput = document.getElementById("profile-input-name");
+      const roleInput = document.getElementById("profile-input-role");
+      if (nameInput) nameInput.value = userName;
+      if (roleInput) roleInput.value = userRole;
+      
+      const profileModal = document.getElementById("modal-edit-profile");
+      if (profileModal) profileModal.classList.remove("hidden");
       lucide.createIcons();
     }
 
@@ -964,7 +968,8 @@
       localStorage.setItem("lexora_user_role", userRole);
 
       updateProfileDOM();
-      document.getElementById("modal-edit-profile").classList.add("hidden");
+      const profileModal = document.getElementById("modal-edit-profile");
+      if (profileModal) profileModal.classList.add("hidden");
       triggerToast("Profil Anda sukses diperbarui!");
     }
 
@@ -976,9 +981,8 @@
       const welcomeHeadline = document.getElementById("welcome-headline");
       if (welcomeHeadline) {
         welcomeHeadline.innerHTML = `
-          Need a Modern <br>
-          <span class="text-brand-600">Finance Ledger</span> <br>
-          Platform, ${userName}?
+          Need a Modern <br class="hidden sm:inline">
+          <span class="text-brand-600 font-extrabold">Finance Ledger</span> Platform, ${userName}?
         `;
       }
     }
@@ -1000,7 +1004,8 @@
     // ALUR TAB SWITCHING (MULTI-TAB SINGLE PAGE APP)
     function switchTab(tabId) {
       document.querySelectorAll(".tab-view").forEach(view => view.classList.add("hidden"));
-      document.getElementById(`view-${tabId}`).classList.remove("hidden");
+      const currentView = document.getElementById(`view-${tabId}`);
+      if (currentView) currentView.classList.remove("hidden");
 
       // Set aktif tab tombol sidebar (Desktop)
       document.querySelectorAll("aside nav button").forEach(btn => {
@@ -1020,12 +1025,11 @@
         setTimeout(() => {
           drawDashboardChart();
           drawPieChart();
-          drawMiniLineChart();
         }, 100);
       }
     }
 
-    // SINKRONISASI DATA UTAMA
+    //    // SINKRONISASI DATA UTAMA
     async function refreshDashboardData() {
       if (!appScriptApiUrl) {
         items = [...initialDemoTransactions];
@@ -1034,13 +1038,16 @@
       }
 
       triggerToast("Menyinkronkan data dengan Google Sheets...");
-      document.getElementById("ledger-table-rows").innerHTML = `
-        <tr>
-          <td colspan="6" class="py-12 text-center text-slate-400 text-xs">
-            <span class="animate-pulse">Sedang mengambil data transaksi cloud...</span>
-          </td>
-        </tr>
-      `;
+      const tableRowsEl = document.getElementById("ledger-table-rows");
+      if (tableRowsEl) {
+        tableRowsEl.innerHTML = `
+          <tr>
+            <td colspan="6" class="py-12 text-center text-slate-400 text-xs">
+              <span class="animate-pulse">Sedang mengambil data transaksi cloud...</span>
+            </td>
+          </tr>
+        `;
+      }
 
       try {
         const response = await fetch(`${appScriptApiUrl}?action=getTransactions`);
@@ -1073,27 +1080,40 @@
     // EVENT TOAST NOTIFIKASI
     function triggerToast(message) {
       const toast = document.getElementById("toast-notif");
-      document.getElementById("toast-text").innerText = message;
-      toast.classList.remove("hidden");
-      setTimeout(() => {
-        toast.classList.add("hidden");
-      }, 3500);
+      if (toast) {
+        const textEl = document.getElementById("toast-text");
+        if (textEl) textEl.innerText = message;
+        toast.classList.remove("hidden");
+        setTimeout(() => {
+          toast.classList.add("hidden");
+        }, 3500);
+      }
     }
 
     // BERSIHKAN FORM INPUT
     function clearForm() {
-      document.getElementById("form-desc").value = "";
-      document.getElementById("form-amount").value = "";
-      const todayDate = new Date().toISOString().split('T')[0];
-      document.getElementById('form-date').value = todayDate;
-      document.getElementById("form-type").value = "Pemasukan";
+      const descEl = document.getElementById("form-desc");
+      const amountEl = document.getElementById("form-amount");
+      const dateEl = document.getElementById("form-date");
+      const typeEl = document.getElementById("form-type");
+      
+      if (descEl) descEl.value = "";
+      if (amountEl) amountEl.value = "";
+      if (dateEl) {
+        const todayDate = new Date().toISOString().split('T')[0];
+        dateEl.value = todayDate;
+      }
+      if (typeEl) typeEl.value = "Pemasukan";
       updateFormCategoryDropdown();
     }
 
     // UPDATE DROPDOWN KATEGORI SECARA DINAMIS SESUAI TYPE PILIHAN
     function updateFormCategoryDropdown() {
-      const type = document.getElementById("form-type").value;
+      const typeEl = document.getElementById("form-type");
+      if (!typeEl) return;
+      const type = typeEl.value;
       const categoryDropdown = document.getElementById("form-category");
+      if (!categoryDropdown) return;
       categoryDropdown.innerHTML = "";
 
       const activeList = (type === "Pemasukan") ? categoriesPemasukan : categoriesPengeluaran;
@@ -1108,8 +1128,11 @@
 
     // UPDATE DROPDOWN KATEGORI UNTUK FORM EDIT
     function updateEditFormCategoryDropdown() {
-      const type = document.getElementById("edit-form-type").value;
+      const typeEl = document.getElementById("edit-form-type");
+      if (!typeEl) return;
+      const type = typeEl.value;
       const categoryDropdown = document.getElementById("edit-form-category");
+      if (!categoryDropdown) return;
       categoryDropdown.innerHTML = "";
 
       const activeList = (type === "Pemasukan") ? categoriesPemasukan : categoriesPengeluaran;
@@ -1125,6 +1148,7 @@
     // POPULATE DROPDOWN FILTER KATEGORI DI OVERVIEW
     function populateFilterCategoryDropdown() {
       const filterSelect = document.getElementById("filter-category");
+      if (!filterSelect) return;
       const previousValue = filterSelect.value || "all";
       
       filterSelect.innerHTML = '<option value="all">Semua Kategori</option>';
@@ -1143,9 +1167,13 @@
 
     // MEMFILTER DATA BERDASARKAN TANGGAL DAN KATEGORI UNTUK DIAGRAM
     function getFilteredData() {
-      const startDate = document.getElementById("filter-start-date").value;
-      const endDate = document.getElementById("filter-end-date").value;
-      const selectedCat = document.getElementById("filter-category").value;
+      const startEl = document.getElementById("filter-start-date");
+      const endEl = document.getElementById("filter-end-date");
+      const catEl = document.getElementById("filter-category");
+      
+      const startDate = startEl ? startEl.value : "";
+      const endDate = endEl ? endEl.value : "";
+      const selectedCat = catEl ? catEl.value : "all";
 
       return items.filter(t => {
         const matchStart = !startDate || t.tanggal >= startDate;
@@ -1176,9 +1204,13 @@
 
       const netBalance = incomeSum - expenseSum;
 
-      document.getElementById("stat-pemasukan").innerText = formatToIDR(incomeSum);
-      document.getElementById("stat-pengeluaran").innerText = formatToIDR(expenseSum);
-      document.getElementById("stat-saldo").innerText = formatToIDR(netBalance);
+      const p1 = document.getElementById("stat-pemasukan");
+      const p2 = document.getElementById("stat-pengeluaran");
+      const p3 = document.getElementById("stat-saldo");
+      
+      if (p1) p1.innerText = formatToIDR(incomeSum);
+      if (p2) p2.innerText = formatToIDR(expenseSum);
+      if (p3) p3.innerText = formatToIDR(netBalance);
 
       // Hitung Rasio & Persentase untuk KPI Card Modern & Intuitif
       const totalVolume = incomeSum + expenseSum;
@@ -1187,21 +1219,31 @@
       const netPercent = incomeSum > 0 ? Math.round((netBalance / incomeSum) * 100) : 0;
 
       // Update Meter Bar & Badge Persen pada KPI Cards
-      document.getElementById("kpi-pemasukan-percent").innerText = `${incomePercent}%`;
-      document.getElementById("kpi-pengeluaran-percent").innerText = `${expensePercent}%`;
-      document.getElementById("kpi-saldo-percent").innerText = `${netPercent}%`;
+      const kipP1 = document.getElementById("kpi-pemasukan-percent");
+      const kpiP2 = document.getElementById("kpi-pengeluaran-percent");
+      const kpiP3 = document.getElementById("kpi-saldo-percent");
+      
+      if (kipP1) kipP1.innerText = `${incomePercent}%`;
+      if (kpiP2) kpiP2.innerText = `${expensePercent}%`;
+      if (kpiP3) kpiP3.innerText = `${netPercent}%`;
 
-      document.getElementById("kpi-pemasukan-bar").style.width = `${incomePercent}%`;
-      document.getElementById("kpi-pengeluaran-bar").style.width = `${expensePercent}%`;
-      document.getElementById("kpi-saldo-bar").style.width = `${Math.max(0, Math.min(100, netPercent))}%`;
+      const bar1 = document.getElementById("kpi-pemasukan-bar");
+      const bar2 = document.getElementById("kpi-pengeluaran-bar");
+      const bar3 = document.getElementById("kpi-saldo-bar");
+      
+      if (bar1) bar1.style.width = `${incomePercent}%`;
+      if (bar2) bar2.style.width = `${expensePercent}%`;
+      if (bar3) bar3.style.width = `${Math.max(0, Math.min(100, netPercent))}%`;
 
       const saldoBadge = document.getElementById("stat-saldo-badge");
-      if (netBalance >= 0) {
-        saldoBadge.className = "text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md mt-2 inline-flex items-center gap-1";
-        saldoBadge.innerHTML = `<i data-lucide="smile" class="w-3 h-3"></i> Arus Kas Surplus (Sangat Sehat)`;
-      } else {
-        saldoBadge.className = "text-[11px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md mt-2 inline-flex items-center gap-1";
-        saldoBadge.innerHTML = `<i data-lucide="frown" class="w-3 h-3"></i> Kas Defisit! Amankan Anggaran`;
+      if (saldoBadge) {
+        if (netBalance >= 0) {
+          saldoBadge.className = "text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md mt-2 inline-flex items-center gap-1";
+          saldoBadge.innerHTML = `<i data-lucide="smile" class="w-3 h-3"></i> Arus Kas Surplus (Sangat Sehat)`;
+        } else {
+          saldoBadge.className = "text-[10px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md mt-2 inline-flex items-center gap-1";
+          saldoBadge.innerHTML = `<i data-lucide="frown" class="w-3 h-3"></i> Kas Defisit! Amankan Anggaran`;
+        }
       }
 
       // Update Form Kategori & Filter Dropdown Sesuai Jenis
@@ -1214,13 +1256,13 @@
       populateCategoriesList();
       drawDashboardChart();
       drawPieChart();
-      drawMiniLineChart();
       lucide.createIcons();
     }
 
     // POPULATE TABEL UTAMA LEDGER (EDIT & DELETE SECARA JELAS)
     function populateLedgerTable(targetData) {
       const container = document.getElementById("ledger-table-rows");
+      if (!container) return;
       container.innerHTML = "";
 
       if (targetData.length === 0) {
@@ -1229,7 +1271,8 @@
             <td colspan="6" class="py-12 text-center text-slate-400 text-xs">Jurnal transaksi kosong.</td>
           </tr>
         `;
-        document.getElementById("ledger-counter").innerText = "Menampilkan 0 Transaksi";
+        const counter = document.getElementById("ledger-counter");
+        if (counter) counter.innerText = "Menampilkan 0 Transaksi";
         return;
       }
 
@@ -1246,38 +1289,40 @@
         const tr = document.createElement("tr");
         tr.className = "hover:bg-slate-50/60 transition border-b border-slate-100/60";
         tr.innerHTML = `
-          <td class="py-4 px-6 sm:px-8 text-xs text-slate-400 font-semibold whitespace-nowrap">${formatPrettyDate(t.tanggal)}</td>
-          <td class="py-4 px-6 font-semibold text-slate-900">${t.deskripsi}</td>
-          <td class="py-4 px-6">
-            <span class="px-2.5 py-1 text-xs font-semibold rounded-lg border ${badgeCategory}">${t.kategori}</span>
+          <td class="py-3 px-5 sm:px-6 text-xs text-slate-400 font-semibold whitespace-nowrap">${formatPrettyDate(t.tanggal)}</td>
+          <td class="py-3 px-5 font-semibold text-slate-900">${t.deskripsi}</td>
+          <td class="py-3 px-5">
+            <span class="px-2 py-0.5 text-xs font-semibold rounded-lg border ${badgeCategory}">${t.kategori}</span>
           </td>
-          <td class="py-4 px-6">
-            <span class="px-3 py-1 text-xs font-bold rounded-full border ${badgeType}">${t.jenis}</span>
+          <td class="py-3 px-5">
+            <span class="px-2.5 py-0.5 text-xs font-bold rounded-full border ${badgeType}">${t.jenis}</span>
           </td>
-          <td class="py-4 px-6 text-right font-extrabold ${isIncome ? 'text-emerald-600' : 'text-slate-800'} whitespace-nowrap">
+          <td class="py-3 px-5 text-right font-extrabold ${isIncome ? 'text-emerald-600' : 'text-slate-800'} whitespace-nowrap">
             ${isIncome ? '+' : '-'} ${formatToIDR(t.nominal).replace("Rp", "").trim()}
           </td>
-          <td class="py-4 px-6 sm:px-8 text-center flex items-center justify-center space-x-2">
+          <td class="py-3 px-5 sm:px-6 text-center flex items-center justify-center space-x-2">
             <!-- EDIT ACTION BUTTON -->
-            <button onclick="openEditModal(${t.id})" class="text-slate-400 hover:text-brand-600 p-2 rounded-xl transition hover:bg-brand-50" title="Edit Transaksi">
-              <i data-lucide="edit-2" class="w-4 h-4 mx-auto"></i>
+            <button onclick="openEditModal(${t.id})" class="text-slate-400 hover:text-brand-600 p-1.5 rounded-xl transition hover:bg-brand-50" title="Edit Transaksi">
+              <i data-lucide="edit-2" class="w-3.5 h-3.5 mx-auto"></i>
             </button>
             <!-- DELETE ACTION BUTTON -->
-            <button onclick="requestDeleteItem(${t.id})" class="text-slate-400 hover:text-rose-600 p-2 rounded-xl transition hover:bg-rose-50" title="Hapus Transaksi">
-              <i data-lucide="trash-2" class="w-4 h-4 mx-auto"></i>
+            <button onclick="requestDeleteItem(${t.id})" class="text-slate-400 hover:text-rose-600 p-1.5 rounded-xl transition hover:bg-rose-50" title="Hapus Transaksi">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5 mx-auto"></i>
             </button>
           </td>
         `;
         container.appendChild(tr);
       });
 
-      document.getElementById("ledger-counter").innerText = `Menampilkan ${sorted.length} Transaksi`;
+      const counter = document.getElementById("ledger-counter");
+      if (counter) counter.innerText = `Menampilkan ${sorted.length} Transaksi`;
       lucide.createIcons();
     }
 
     // POPULATE TABEL MINI PADA DASHBOARD SUMMARY
     function populateMiniTable() {
       const container = document.getElementById("mini-table-body");
+      if (!container) return;
       container.innerHTML = "";
 
       const recent = [...items].sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal)).slice(0, 3);
@@ -1296,10 +1341,10 @@
         const row = document.createElement("tr");
         row.className = "border-b border-slate-100 hover:bg-slate-50/50 transition";
         row.innerHTML = `
-          <td class="py-3.5 text-slate-400 text-[10px] font-bold">${formatPrettyDate(t.tanggal)}</td>
-          <td class="py-3.5 font-bold text-slate-800 max-w-[150px] truncate">${t.deskripsi}</td>
-          <td class="py-3.5"><span class="px-2 py-0.5 rounded-md border border-slate-200 bg-slate-50 text-[10px] font-semibold">${t.kategori}</span></td>
-          <td class="py-3.5 text-right font-extrabold ${isIncome ? 'text-emerald-600' : 'text-slate-800'}">
+          <td class="py-2 text-slate-400 text-[9px] font-bold">${formatPrettyDate(t.tanggal)}</td>
+          <td class="py-2 font-bold text-slate-800 max-w-[150px] truncate">${t.deskripsi}</td>
+          <td class="py-2"><span class="px-2 py-0.5 rounded-md border border-slate-200 bg-slate-50 text-[9px] font-semibold">${t.kategori}</span></td>
+          <td class="py-2 text-right font-extrabold ${isIncome ? 'text-emerald-600' : 'text-slate-800'}">
             ${isIncome ? '+' : '-'} ${formatToIDR(t.nominal).replace("Rp", "").trim()}
           </td>
         `;
@@ -1312,44 +1357,45 @@
       const gridPemasukan = document.getElementById("categories-grid-pemasukan");
       const gridPengeluaran = document.getElementById("categories-grid-pengeluaran");
 
-      gridPemasukan.innerHTML = "";
-      gridPengeluaran.innerHTML = "";
-
-      // Render Pemasukan
-      categoriesPemasukan.forEach((cat, index) => {
-        const card = document.createElement("div");
-        card.className = "bg-emerald-50/20 p-4 rounded-2xl border border-emerald-100/30 flex items-center justify-between";
-        card.innerHTML = `
-          <div class="flex items-center space-x-3">
-            <div class="bg-emerald-50 text-emerald-600 p-2 rounded-xl">
-              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+      if (gridPemasukan) {
+        gridPemasukan.innerHTML = "";
+        categoriesPemasukan.forEach((cat, index) => {
+          const card = document.createElement("div");
+          card.className = "bg-emerald-50/20 p-3 rounded-xl border border-emerald-100/30 flex items-center justify-between";
+          card.innerHTML = `
+            <div class="flex items-center space-x-2.5">
+              <div class="bg-emerald-50 text-emerald-600 p-1.5 rounded-lg">
+                <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+              </div>
+              <span class="text-xs font-bold text-slate-800">${cat}</span>
             </div>
-            <span class="text-xs font-bold text-slate-800">${cat}</span>
-          </div>
-          <button onclick="deleteCategory('Pemasukan', ${index})" class="text-slate-400 hover:text-rose-600 p-1.5 rounded-lg hover:bg-rose-50 transition">
-            <i data-lucide="trash" class="w-4 h-4"></i>
-          </button>
-        `;
-        gridPemasukan.appendChild(card);
-      });
+            <button onclick="deleteCategory('Pemasukan', ${index})" class="text-slate-400 hover:text-rose-600 p-1 rounded-lg hover:bg-rose-50 transition">
+              <i data-lucide="trash" class="w-3.5 h-3.5"></i>
+            </button>
+          `;
+          gridPemasukan.appendChild(card);
+        });
+      }
 
-      // Render Pengeluaran
-      categoriesPengeluaran.forEach((cat, index) => {
-        const card = document.createElement("div");
-        card.className = "bg-rose-50/20 p-4 rounded-2xl border border-rose-100/30 flex items-center justify-between";
-        card.innerHTML = `
-          <div class="flex items-center space-x-3">
-            <div class="bg-rose-50 text-rose-600 p-2 rounded-xl">
-              <i data-lucide="arrow-down-left" class="w-4 h-4"></i>
+      if (gridPengeluaran) {
+        gridPengeluaran.innerHTML = "";
+        categoriesPengeluaran.forEach((cat, index) => {
+          const card = document.createElement("div");
+          card.className = "bg-rose-50/20 p-3 rounded-xl border border-rose-100/30 flex items-center justify-between";
+          card.innerHTML = `
+            <div class="flex items-center space-x-2.5">
+              <div class="bg-rose-50 text-rose-600 p-1.5 rounded-lg">
+                <i data-lucide="arrow-down-left" class="w-3.5 h-3.5"></i>
+              </div>
+              <span class="text-xs font-bold text-slate-800">${cat}</span>
             </div>
-            <span class="text-xs font-bold text-slate-800">${cat}</span>
-          </div>
-          <button onclick="deleteCategory('Pengeluaran', ${index})" class="text-slate-400 hover:text-rose-600 p-1.5 rounded-lg hover:bg-rose-50 transition">
-            <i data-lucide="trash" class="w-4 h-4"></i>
-          </button>
-        `;
-        gridPengeluaran.appendChild(card);
-      });
+            <button onclick="deleteCategory('Pengeluaran', ${index})" class="text-slate-400 hover:text-rose-600 p-1 rounded-lg hover:bg-rose-50 transition">
+              <i data-lucide="trash" class="w-3.5 h-3.5"></i>
+            </button>
+          `;
+          gridPengeluaran.appendChild(card);
+        });
+      }
     }
 
     // ACTION: TAMBAH KATEGORI BARU
@@ -1376,18 +1422,18 @@
       renderViews();
     }
 
-    // ACTION: HAPUS KATEGORI
+    // ACTION: HAPUS KATEGORI (Bebas dari Native Confirm Dialog)
     function deleteCategory(type, index) {
       const targetList = (type === "Pemasukan") ? categoriesPemasukan : categoriesPengeluaran;
       const storageKey = (type === "Pemasukan") ? "lexora_cats_pemasukan" : "lexora_cats_pengeluaran";
       const catName = targetList[index];
 
-      if (confirm(`Apakah Anda yakin ingin menghapus kategori "${catName}" dari daftar ${type}?`)) {
+      showCustomConfirm(`Apakah Anda yakin ingin menghapus kategori "${catName}" dari daftar ${type}?`, () => {
         targetList.splice(index, 1);
         localStorage.setItem(storageKey, JSON.stringify(targetList));
         triggerToast("Kategori terhapus!");
         renderViews();
-      }
+      });
     }
 
     // ACTION: BUKA MODAL EDIT DENGAN DATA TERPILIH
@@ -1405,7 +1451,8 @@
       document.getElementById("edit-form-desc").value = transaction.deskripsi;
       document.getElementById("edit-form-amount").value = transaction.nominal;
 
-      document.getElementById("modal-edit-transaction").classList.remove("hidden");
+      const editModal = document.getElementById("modal-edit-transaction");
+      if (editModal) editModal.classList.remove("hidden");
       lucide.createIcons();
     }
 
@@ -1447,14 +1494,15 @@
         }
 
         triggerToast("Perubahan transaksi disimpan secara lokal!");
-        document.getElementById("modal-edit-transaction").classList.add("hidden");
+        const editModal = document.getElementById("modal-edit-transaction");
+        if (editModal) editModal.classList.add("hidden");
         renderViews();
         btnSubmit.disabled = false;
-        btnSubmit.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i><span>Simpan Perubahan</span>`;
+        btnSubmit.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i><span>Simpan Perubahan</span>`;
         return;
       }
 
-      // Mode Online Google Sheets: Hapus data lama & Simpan data baru guna melestarikan Apps Script tanpa perubahan backend
+      // Mode Online Google Sheets
       try {
         triggerToast("Menyimpan revisi di cloud...");
         
@@ -1481,7 +1529,8 @@
           const addJson = await addResponse.json();
           if (addJson.status === "success") {
             triggerToast("Revisi transaksi sukses disinkronisasikan ke Google Sheets!");
-            document.getElementById("modal-edit-transaction").classList.add("hidden");
+            const editModal = document.getElementById("modal-edit-transaction");
+            if (editModal) editModal.classList.add("hidden");
             refreshDashboardData();
           } else {
             triggerToast("Gagal mengunggah revisi: " + addJson.message);
@@ -1494,7 +1543,7 @@
         console.error(error);
       } finally {
         btnSubmit.disabled = false;
-        btnSubmit.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i><span>Simpan Perubahan</span>`;
+        btnSubmit.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i><span>Simpan Perubahan</span>`;
       }
     }
 
@@ -1515,7 +1564,7 @@
       if (!tAmount || tAmount <= 0) {
         triggerToast("Nominal transaksi harus lebih besar dari nol!");
         btnSubmit.disabled = false;
-        btnSubmit.innerHTML = `<i data-lucide="plus-circle" class="w-4 h-4"></i><span>Simpan Transaksi</span>`;
+        btnSubmit.innerHTML = `<i data-lucide="plus-circle" class="w-3.5 h-3.5"></i><span>Simpan Transaksi</span>`;
         return;
       }
 
@@ -1538,7 +1587,7 @@
         renderViews();
         
         btnSubmit.disabled = false;
-        btnSubmit.innerHTML = `<i data-lucide="plus-circle" class="w-4 h-4"></i><span>Simpan Transaksi</span>`;
+        btnSubmit.innerHTML = `<i data-lucide="plus-circle" class="w-3.5 h-3.5"></i><span>Simpan Transaksi</span>`;
         lucide.createIcons();
         return;
       }
@@ -1572,40 +1621,49 @@
         console.error(error);
       } finally {
         btnSubmit.disabled = false;
-        btnSubmit.innerHTML = `<i data-lucide="plus-circle" class="w-4 h-4"></i><span>Simpan Transaksi</span>`;
+        btnSubmit.innerHTML = `<i data-lucide="plus-circle" class="w-3.5 h-3.5"></i><span>Simpan Transaksi</span>`;
         lucide.createIcons();
       }
     }
 
-    // ACTION: HAPUS TRANSAKSI DARI SERVER / LOKAL
-    async function requestDeleteItem(id) {
-      if (!confirm("Hapus data transaksi ini secara permanen dari basis data?")) return;
+    // ACTION: HAPUS TRANSAKSI DARI SERVER / LOKAL (Bebas dari Native Confirm Dialog)
+    function requestDeleteItem(id) {
+      showCustomConfirm("Apakah Anda yakin ingin menghapus data transaksi ini secara permanen dari basis data?", async () => {
+        if (!appScriptApiUrl) {
+          items = items.filter(t => t.id !== id);
+          const idx = initialDemoTransactions.findIndex(t => t.id === id);
+          if (idx !== -1) initialDemoTransactions.splice(idx, 1);
 
-      if (!appScriptApiUrl) {
-        items = items.filter(t => t.id !== id);
-        const idx = initialDemoTransactions.findIndex(t => t.id === id);
-        if (idx !== -1) initialDemoTransactions.splice(idx, 1);
-
-        triggerToast("Transaksi berhasil dihapus secara lokal.");
-        renderViews();
-        return;
-      }
-
-      try {
-        triggerToast("Menghubungi server cloud...");
-        const response = await fetch(`${appScriptApiUrl}?action=deleteTransaction&id=${id}`);
-        const result = await response.json();
-
-        if (result.status === "success") {
-          triggerToast("Transaksi terhapus dari cloud!");
-          refreshDashboardData();
-        } else {
-          triggerToast("Gagal menghapus baris spreadsheet: " + result.message);
+          triggerToast("Transaksi berhasil dihapus secara lokal.");
+          renderViews();
+          return;
         }
-      } catch (error) {
-        triggerToast("Gagal menghubungi Google Apps Script.");
-        console.error(error);
-      }
+
+        try {
+          triggerToast("Menghubungi server cloud...");
+          const response = await fetch(`${appScriptApiUrl}?action=deleteTransaction&id=${id}`);
+          const result = await response.json();
+
+          if (result.status === "success") {
+            triggerToast("Transaksi terhapus dari cloud!");
+            refreshDashboardData();
+          } else {
+            triggerToast("Gagal menghapus baris spreadsheet: " + result.message);
+          }
+        } catch (error) {
+          triggerToast("Gagal menghubungi Google Apps Script.");
+          console.error(error);
+        }
+      });
+    }
+
+    // UTILITY CONFIRM BOX HANDLER
+    function showCustomConfirm(message, proceedCallback) {
+      const confirmMsg = document.getElementById("custom-confirm-message");
+      if (confirmMsg) confirmMsg.innerText = message;
+      const confirmModal = document.getElementById("modal-custom-confirm");
+      if (confirmModal) confirmModal.classList.remove("hidden");
+      confirmCallback = proceedCallback;
     }
 
     // ==========================================
@@ -1627,19 +1685,19 @@
     // ==========================================
     // VISUAL GRAPH CHART.JS ENGINE
     // ==========================================
-    
-    // 1. DIAGRAM BATANG BERDASARKAN KATEGORI & RENTANG (BUKAN BULANAN LAGI - SESUAI INSTRUKSI)
+    //    
+    // 1. DIAGRAM BATANG BERDASARKAN KATEGORI & RENTANG
     function drawDashboardChart() {
-      const ctx = document.getElementById('dashboardChart').getContext('2d');
+      const canvas = document.getElementById('dashboardChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
       const filteredItems = getFilteredData();
       
-      // Ambil seluruh kategori unik yang dicatat dari data ter-filter
       const activeCategories = Array.from(new Set(filteredItems.map(t => t.kategori)));
       
       const incomes = [];
       const expenses = [];
 
-      // Akumulasikan total pemasukan dan pengeluaran per kategori unik yang ditemukan
       activeCategories.forEach(cat => {
         let catIncome = 0;
         let catExpense = 0;
@@ -1662,7 +1720,6 @@
         mainDashboardChart.destroy();
       }
 
-      // Jika tidak ada data sama sekali dalam rentang tersebut
       const chartLabels = activeCategories.length > 0 ? activeCategories : ["Tidak Ada Data"];
       const chartIncomes = incomes.length > 0 ? incomes : [0];
       const chartExpenses = expenses.length > 0 ? expenses : [0];
@@ -1736,7 +1793,9 @@
 
     // 2. DIAGRAM LINGKARAN TER-FILTER (PIE CHART JENIS KAS)
     function drawPieChart() {
-      const ctx = document.getElementById('pieChartJenis').getContext('2d');
+      const canvas = document.getElementById('pieChartJenis');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
       const filteredItems = getFilteredData();
 
       let totalPemasukan = 0;
@@ -1797,40 +1856,6 @@
             }
           },
           cutout: '72%'
-        }
-      });
-    }
-
-    // RENDER GRAFIK MINI GARIS (QUICK ANALYTICS)
-    function drawMiniLineChart() {
-      const ctx = document.getElementById('miniLineChart').getContext('2d');
-      const chartData = [12, 19, 15, 25, 22, 30, 28];
-
-      if (miniLineChartInstance) {
-        miniLineChartInstance.destroy();
-      }
-
-      miniLineChartInstance = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: ['', '', '', '', '', '', ''],
-          datasets: [{
-            data: chartData,
-            borderColor: '#4f46e5',
-            borderWidth: 2,
-            pointRadius: 0,
-            tension: 0.4,
-            fill: false
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { display: false },
-            y: { display: false }
-          }
         }
       });
     }
